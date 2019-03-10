@@ -1,0 +1,11 @@
+{
+  "path": [
+    "Motherboard",
+    "CPU",
+    "VideoCard",
+    "RAM",
+    "Storage",
+    "PowerSupply",
+    "PcCase"
+  ]
+}
