@@ -1,11 +1,9 @@
-{
-  "path": [
-    "Motherboard",
-    "CPU",
-    "VideoCard",
-    "RAM",
-    "Storage",
-    "PowerSupply",
-    "PcCase"
-  ]
-}
+[
+  "Motherboard",
+  "CPU",
+  "VideoCard",
+  "RAM",
+  "Storage",
+  "PowerSupply",
+  "PcCase"
+]

@@ -6,7 +6,7 @@ namespace App\Domain\PcParts;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CPU
+abstract class PcPart extends Model
 {
 
 }
