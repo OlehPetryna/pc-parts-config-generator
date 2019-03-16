@@ -17,7 +17,8 @@ final class App
 
     public function init()
     {
-        $this->container = require_once './Config/bootstrap.php';
+        $this->container = require_once('Config/bootstrap.php');
+        $this->loadRoutes();
     }
 
     public function run()
@@ -30,7 +31,8 @@ final class App
         $route = $router->getMatcher()->match($request);
         $request = $this->addRequestParameters($request, $route);
 
-        $response->getBody()->write($route->handler($request));
+        $handler = $route->handler;
+        $response->getBody()->write($handler($request));
         $emitter->emit($response);
     }
 
@@ -41,6 +43,12 @@ final class App
         }
 
         return $request;
+    }
+
+    private function loadRoutes(): void
+    {
+        require_once('Config/routes.php');
+        load($this->getRouter()->getMap());
     }
 
     private function getRequest(): ServerRequestInterface

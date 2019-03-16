@@ -16,6 +16,18 @@ class PartsCollection implements \Iterator
         $this->collection = $parts;
     }
 
+    public static function fromIdsMap(array $map): self
+    {
+        $collection = [];
+        $namespace = PcPart::ENTITIES_NAMESPACE . '\\';
+        foreach ($map as $class => $id) {
+            $className = "{$namespace}{$class}";
+            $collection[] = $className::find($id);
+        }
+
+        return new self($collection);
+    }
+
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php

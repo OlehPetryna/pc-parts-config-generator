@@ -26,7 +26,7 @@ $container['request'] = function (Container $container): RequestInterface {
     );
 };
 
-$container['request'] = function (Container $container): ResponseInterface {
+$container['response'] = function (Container $container): ResponseInterface {
     return new Response();
 };
 

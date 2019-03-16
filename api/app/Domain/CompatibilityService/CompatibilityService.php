@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Domain\CompatibilityService;
 
-
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
 
