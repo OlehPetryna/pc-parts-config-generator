@@ -19,7 +19,7 @@ class PartsCollection implements \Iterator
     public static function fromIdsMap(array $map): self
     {
         $collection = [];
-        $namespace = PcPart::ENTITIES_NAMESPACE . '\\';
+        $namespace = PcPart::ENTITIES_NAMESPACE;
         foreach ($map as $class => $id) {
             $className = "{$namespace}{$class}";
             $collection[] = $className::find($id);

@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class PcPart extends Model
 {
-    const ENTITIES_NAMESPACE = __NAMESPACE__ . '\\Entities';
+    const ENTITIES_NAMESPACE = __NAMESPACE__ . '\\Entities\\';
 }

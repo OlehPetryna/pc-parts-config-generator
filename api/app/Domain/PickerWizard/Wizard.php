@@ -37,8 +37,10 @@ class Wizard
         return json_decode(file_get_contents(__DIR__ . '/config.json'), true);
     }
 
-    private function buildDummyPartFromStage(string $stageName): PcPart
+    private function buildDummyPartFromStage(string $stageClassName): PcPart
     {
+        $class = PcPart::ENTITIES_NAMESPACE . $stageClassName;
 
+        return new $class;
     }
 }
