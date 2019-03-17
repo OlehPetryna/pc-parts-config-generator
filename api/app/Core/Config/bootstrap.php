@@ -38,7 +38,7 @@ $container['router'] = function (Container $container): RouterContainer {
     return new RouterContainer();
 };
 
-$countainer['db'] = function (Container $container): Manager {
+$container['db'] = function (Container $container): Manager {
     $capsule = new Manager;
     $capsule->addConnection([
         'driver'    => 'mysql',
