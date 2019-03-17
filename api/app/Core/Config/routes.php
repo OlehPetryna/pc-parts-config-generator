@@ -7,4 +7,3 @@ use Aura\Router\Map;
 function load(Map $routes) {
     $routes->get('index', '/', new IndexAction());
 }
-

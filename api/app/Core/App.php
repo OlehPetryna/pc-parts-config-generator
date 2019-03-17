@@ -30,9 +30,9 @@ final class App
 
         $route = $router->getMatcher()->match($request);
         $request = $this->addRequestParameters($request, $route);
-
         $handler = $route->handler;
-        $response->getBody()->write($handler($request));
+
+        $response = $handler($request, $response);
         $emitter->emit($response);
     }
 
