@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Domain\PcParts\Entities;
 
-class CPU
-{
+use App\Domain\PcParts\PcPart;
 
+class CPU extends PcPart
+{
+    protected $collection = 'cpu';
 }

@@ -11,6 +11,8 @@ class WizardAction extends HtmlAction
 {
     public function __invoke(RequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+
+
         return $this->renderer()->render($response, '/wizard.php');
     }
 }

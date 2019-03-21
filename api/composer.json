@@ -6,7 +6,8 @@
     "zendframework/zend-httphandlerrunner": "^1.1",
     "illuminate/database": "^5.8",
     "vlucas/phpdotenv": "^3.3",
-    "slim/php-view": "^2.2"
+    "slim/php-view": "^2.2",
+    "jenssegers/mongodb": "^3.5"
   },
   "autoload" :{
     "psr-4": {
