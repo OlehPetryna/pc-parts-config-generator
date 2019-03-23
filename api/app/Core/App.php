@@ -8,6 +8,7 @@ use Aura\Router\RouterContainer;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 final class App
@@ -69,5 +70,10 @@ final class App
     private function getRouter(): RouterContainer
     {
         return $this->container['router'];
+    }
+
+    public function getLogger(): LoggerInterface
+    {
+        return $this->container['logger'];
     }
 }

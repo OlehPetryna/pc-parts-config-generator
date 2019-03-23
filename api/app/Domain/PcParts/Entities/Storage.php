@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Domain\PcParts\Entities;
 
 
-class Storage
+use App\Domain\PcParts\PcPart;
+
+class Storage extends PcPart
 {
 
 }

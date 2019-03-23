@@ -18,4 +18,5 @@ class CompatibilityContext
     {
         return new TruthyStrategy($shouldBeCompatibleWithPart, $wholeCollection);
     }
+    //null object, strategies could be created from both should & findingd parts
 }

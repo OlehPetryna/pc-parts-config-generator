@@ -4,6 +4,7 @@ declare(strict_types=1);
 use Aura\Router\RouterContainer;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager;
+use Monolog\Logger;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -61,6 +62,10 @@ $capsule->bootEloquent();
 
 $container['db'] = function (Container $container) use ($capsule) {
     return $capsule;
+};
+
+$container['logger'] = function (Container $container) {
+    return new Logger('logger');
 };
 
 

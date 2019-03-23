@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Domain\PcParts\Entities;
 
 
-class PowerSupply
+use App\Domain\PcParts\PcPart;
+
+class PowerSupply extends PcPart
 {
 
 }

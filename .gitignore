@@ -67,5 +67,6 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 api/composer.lock
-
+api/app/Parser
+api/vendor
 .env

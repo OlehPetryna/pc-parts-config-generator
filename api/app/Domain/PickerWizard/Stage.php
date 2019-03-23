@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Domain\PickerWizard;
 
-
 use App\Domain\PcParts\PcPart;
 
 class Stage
@@ -23,7 +22,12 @@ class Stage
         return new $class;
     }
 
-    private function readConfig(): array
+    public function getAllStages(): array
+    {
+        return $this->config;
+    }
+
+    private function readConfig(): void
     {
         $this->config = json_decode(file_get_contents(__DIR__ . '/config.json'), true);
     }
