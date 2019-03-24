@@ -6,28 +6,31 @@
  */
 ?>
 <div class="whole-screen-min-height">
-    <input type="hidden" name="stage" id="currentStage" value="<?= $currentStep ?>">
-    <div class="progress-wrapper mb-4">
-        <div class="progress">
-            <div class="progress-bar bg-primary" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
+    <form action="" method="post">
+        <input type="hidden" name="stage" id="currentStage" value="<?= $currentStep ?>">
+        <input type="hidden" name="partId" id="pickedPartId">
+        <div class="progress-wrapper mb-4">
+            <div class="progress">
+                <div class="progress-bar bg-primary" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
+            </div>
+            <span class="px-3"><?= "$currentStep / $totalStepsAmount" ?></span>
         </div>
-        <span class="px-3"><?= "$currentStep / $totalStepsAmount" ?></span>
-    </div>
-    <div class="container">
-        <h3>Будь-ласка, оберіть <?= $stepName ?></h3>
-        <div class="table-responsive px-3 py-2">
-            <table id="partsTable" class="table table-striped">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Зображення</th>
-                    <th>Назва</th>
-                    <th>Ціна</th>
-                </tr>
-                </thead>
-            </table>
+        <div class="container">
+            <h3>Будь-ласка, оберіть <?= $stepName ?></h3>
+            <div class="table-responsive px-3 py-2">
+                <table id="partsTable" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Зображення</th>
+                        <th>Назва</th>
+                        <th>Ціна</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <script>
@@ -48,8 +51,8 @@
                         const idx = settings.row;
                         return `
                             <div class="d-flex flex-wrap">
-                                <button data-idx="${idx}" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
-                                <button data-idx="${idx}" class="w-100 part-details-btn btn btn-outline-info">Деталі</button>
+                                <button type="button" data-id="${currentEntry._id.$oid}" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
+                                <button type="button" data-idx="${idx}" class="w-100 part-details-btn btn btn-outline-info">Деталі</button>
                             </div>
                             `
                     }
@@ -74,9 +77,9 @@
         });
 
         $(document).on('click', '.part-details-btn', function () {
-            const data = dataTable.data()[$(this).data('idx')]
+            const data = dataTable.data()[$(this).data('idx')];
             const content = $(
-                `<table class="table table-striped">
+                `<table data-id="${data._id.$oid}" class="table table-striped">
                     <tr><th>Ціна</th><td>${data.price}</td></tr>
                 </table>`
             );
@@ -86,6 +89,7 @@
                 content.append(`<tr><th>${specification.key}</th><td>${specification.value}</td></tr>`);
             }
 
+            console.log(data);
             swal({
                 className: 'part-details-modal',
                 title: data.title,
@@ -102,7 +106,16 @@
             setTimeout(function () {
                 $('.swal-overlay--show-modal').scrollTop(0)
             }, 0)
+        });
 
+        $(document).on('click', '.choose-part-btn', function () {
+            const partId = $(this).data('id') ? $(this).data('id') : $(this).closest('[data-id]').data('id');
+
+            const stage = $('#currentStage');
+            stage.val(stage.val() * 1 + 1);
+
+            $('#pickedPartId').val(partId);
+            $('form').submit();
         })
     };
 </script>

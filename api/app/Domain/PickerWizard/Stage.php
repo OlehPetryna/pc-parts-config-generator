@@ -22,6 +22,16 @@ class Stage
         return new $class;
     }
 
+    public function getStageName(int $stageIdx): string
+    {
+        return $this->config[$stageIdx];
+    }
+
+    public function getStagesCount(): int
+    {
+        return count($this->getAllStages());
+    }
+
     public function getAllStages(): array
     {
         return $this->config;

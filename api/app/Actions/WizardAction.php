@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Actions;
 
 use App\Core\HtmlAction;
+use App\Domain\PickerWizard\Stage;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,12 +13,16 @@ class WizardAction extends HtmlAction
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $currentStep = $request->getAttribute('step', 0);
+        $stage = new Stage();
+
+        $currentStep = (int)$request->getAttribute('stage', 0);
+        $currentStepName = $stage->getStageName($currentStep);
+        $totalStepsAmount = $stage->getStagesCount();
 
         return $this->renderer()->render($response, '/wizard.php', [
             'currentStep' => $currentStep,
-            'totalStepsAmount' => 7,
-            'stepName' => 'Motherboard'
+            'totalStepsAmount' => $totalStepsAmount,
+            'stepName' => $currentStepName
         ]);
     }
 }

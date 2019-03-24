@@ -9,7 +9,7 @@ use Aura\Router\Map;
 
 function load(Map $routes) {
     $routes->get('index', '/', new IndexAction());
-    $routes->get('wizard', '/wizard', new WizardAction());
+    $routes->route('wizard', '/wizard', new WizardAction());
     $routes->get('suggest', '/suggest', new SuggestAction());
     $routes->get('fetchStagePart', '/fetch-stage-parts/', new FetchStagePartsAction());
 }
