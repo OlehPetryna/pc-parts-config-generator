@@ -9,6 +9,8 @@ abstract class PcPart extends Model
 {
     const ENTITIES_NAMESPACE = __NAMESPACE__ . '\\Entities\\';
 
+    protected $connection = 'mongodb';
+
     public function newCollection(array $models = [])
     {
         return new PartsCollection($models);

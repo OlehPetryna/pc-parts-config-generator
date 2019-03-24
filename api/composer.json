@@ -9,7 +9,8 @@
     "slim/php-view": "^2.2",
     "jenssegers/mongodb": "^3.5",
     "paquettg/php-html-parser": "^2.0",
-    "monolog/monolog": "^1.24"
+    "monolog/monolog": "^1.24",
+    "illuminate/pagination": "^5.8"
   },
   "autoload" :{
     "psr-4": {

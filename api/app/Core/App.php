@@ -43,6 +43,14 @@ final class App
             $request = $request->withAttribute($key, $value);
         }
 
+        foreach ($request->getQueryParams() as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
+        foreach ($request->getParsedBody() as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
         return $request;
     }
 

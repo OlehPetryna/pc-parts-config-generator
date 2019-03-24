@@ -6,10 +6,10 @@ namespace App\Domain\CompatibilityService\Strategies;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class TruthyStrategy extends AbstractStrategy
+class NullStrategy extends AbstractStrategy
 {
     public function addAcceptanceCriteria(Builder $query): array
     {
-        return ['1', '=', '1'];
+
     }
 }

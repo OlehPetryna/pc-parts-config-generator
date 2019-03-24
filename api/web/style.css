@@ -1,0 +1,42 @@
+a, .btn, a:hover, .btn:hover {
+    text-decoration: none;
+}
+
+.whole-screen-min-height {
+    min-height: 100vh;
+}
+
+.choose-section-illustration {
+    height: 40vh;
+    width: 40vw;
+    max-width: 500px;
+    max-height: 400px;
+    position: relative;
+    z-index: 0;
+}
+
+.scale-up-subject {
+    transition: all 0.15s ease-in-out;
+}
+
+.scale-up-parent:hover .scale-up-trigger:hover .scale-up-subject {
+    transform: scale(1.2);
+}
+
+.scale-up-parent:hover .scale-up-trigger:not(:hover) .scale-up-subject {
+    transform: scale(0.8);
+}
+
+.progress {
+    border-radius: 0;
+    height: 3px;
+}
+
+.parts-table-image {
+    max-width: 200px;
+    max-height: 150px;
+}
+
+.part-details-modal {
+    width: 65vw;
+}

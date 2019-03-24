@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 class PartsCollection extends Collection
 {
     /**@var PcPart[] $collection*/
-    private $items;
+    protected $items;
 
     public static function fromIdsMap(array $map): self
     {
