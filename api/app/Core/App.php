@@ -5,10 +5,11 @@ namespace App\Core;
 
 use Aura\Router\Route;
 use Aura\Router\RouterContainer;
-use Pimple\Container;
+use DI\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 final class App
@@ -33,7 +34,7 @@ final class App
         $request = $this->addRequestParameters($request, $route);
         $handler = $route->handler;
 
-        $response = $handler($request, $response);
+        $response = $this->container->call($handler, [ServerRequestInterface::class => $request]);
         $emitter->emit($response);
     }
 
@@ -57,31 +58,31 @@ final class App
     private function loadRoutes(): void
     {
         require_once('Config/routes.php');
-        load($this->getRouter()->getMap());
+        load($this->getRouter()->getMap(), $this->container);
     }
 
     private function getRequest(): ServerRequestInterface
     {
-        return $this->container['request'];
+        return $this->container->get(ServerRequestInterface::class);
     }
 
     private function getResponse(): ResponseInterface
     {
-        return $this->container['response'];
+        return $this->container->get(ResponseInterface::class);
     }
 
     private function getEmitter(): SapiEmitter
     {
-        return $this->container['emitter'];
+        return $this->container->get(EmitterInterface::class);
     }
 
     private function getRouter(): RouterContainer
     {
-        return $this->container['router'];
+        return $this->container->get('router');
     }
 
     public function getLogger(): LoggerInterface
     {
-        return $this->container['logger'];
+        return $this->container->get('logger');
     }
 }

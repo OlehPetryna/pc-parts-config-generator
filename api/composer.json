@@ -10,7 +10,9 @@
     "jenssegers/mongodb": "^3.5",
     "paquettg/php-html-parser": "^2.0",
     "monolog/monolog": "^1.24",
-    "illuminate/pagination": "^5.8"
+    "illuminate/pagination": "^5.8",
+    "hansott/psr7-cookies": "^2.0",
+    "php-di/php-di": "^6.0"
   },
   "autoload" :{
     "psr-4": {

@@ -8,23 +8,25 @@ use App\Domain\PcParts\PcPart;
 class Stage
 {
     private $config;
+    private $idx;
 
-    public function __construct()
+    public function __construct(int $stage = 0)
     {
+        $this->idx = $stage;
         $this->readConfig();
     }
 
-    public function buildDummyPart(int $stageIdx): PcPart
+    public function buildDummyPart(): PcPart
     {
-        $stageClassName = $this->config[$stageIdx];
+        $stageClassName = $this->config[$this->idx];
 
         $class = PcPart::ENTITIES_NAMESPACE . $stageClassName;
         return new $class;
     }
 
-    public function getStageName(int $stageIdx): string
+    public function getName(): string
     {
-        return $this->config[$stageIdx];
+        return $this->config[$this->idx];
     }
 
     public function getStagesCount(): int
@@ -35,6 +37,11 @@ class Stage
     public function getAllStages(): array
     {
         return $this->config;
+    }
+
+    public function getIdx(): int
+    {
+        return $this->idx;
     }
 
     private function readConfig(): void

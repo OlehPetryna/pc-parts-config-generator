@@ -13,7 +13,8 @@
             <div class="progress">
                 <div class="progress-bar bg-primary" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
             </div>
-            <span class="px-3"><?= "$currentStep / $totalStepsAmount" ?></span>
+            <p class="px-3 mb-3"><?= "$currentStep / $totalStepsAmount" ?></p>
+            <button type="button" class="ml-3 btn btn-secondary btn-sm">Назад</button>
         </div>
         <div class="container">
             <h3>Будь-ласка, оберіть <?= $stepName ?></h3>
@@ -51,7 +52,7 @@
                         const idx = settings.row;
                         return `
                             <div class="d-flex flex-wrap">
-                                <button type="button" data-id="${currentEntry._id.$oid}" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
+                                <button type="button" data-id="${currentEntry._id.$oid  }" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
                                 <button type="button" data-idx="${idx}" class="w-100 part-details-btn btn btn-outline-info">Деталі</button>
                             </div>
                             `

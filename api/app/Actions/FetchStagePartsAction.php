@@ -17,8 +17,8 @@ class FetchStagePartsAction extends Action
     {
         $stageIdx = (int)$request->getAttribute('stage');
 
-        $stage = new Stage();
-        $model = $stage->buildDummyPart($stageIdx);
+        $stage = new Stage($stageIdx);
+        $model = $stage->buildDummyPart();
 
         $handler = DataTableHandler::fromRequest($request);
         $entities = $handler->fetchEntities($model->getTable());
