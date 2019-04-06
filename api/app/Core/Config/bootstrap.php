@@ -27,13 +27,23 @@ $containerBuilder = new ContainerBuilder();
 
 $containerBuilder->addDefinitions([
     ServerRequestInterface::class => function () {
-        return ServerRequestFactory::fromGlobals(
+        $request = ServerRequestFactory::fromGlobals(
             $_SERVER,
             $_GET,
             $_POST,
             $_COOKIE,
             $_FILES
         );
+
+        foreach ($request->getQueryParams() as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
+        foreach ($request->getParsedBody() as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
+        return $request;
     },
     RequestCookies::class => function (ServerRequestInterface $request) {
         return RequestCookies::createFromRequest($request);

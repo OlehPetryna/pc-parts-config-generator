@@ -34,21 +34,13 @@ final class App
         $request = $this->addRequestParameters($request, $route);
         $handler = $route->handler;
 
-        $response = $this->container->call($handler, [ServerRequestInterface::class => $request]);
+        $response = $this->container->call($handler, [$request]);
         $emitter->emit($response);
     }
 
     private function addRequestParameters(ServerRequestInterface $request, Route $route): ServerRequestInterface
     {
         foreach ($route->attributes as $key => $value) {
-            $request = $request->withAttribute($key, $value);
-        }
-
-        foreach ($request->getQueryParams() as $key => $value) {
-            $request = $request->withAttribute($key, $value);
-        }
-
-        foreach ($request->getParsedBody() as $key => $value) {
             $request = $request->withAttribute($key, $value);
         }
 

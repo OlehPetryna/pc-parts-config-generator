@@ -15,4 +15,9 @@ abstract class PcPart extends Model
     {
         return new PartsCollection($models);
     }
+
+    public function getClass(): string
+    {
+        return static::class;
+    }
 }

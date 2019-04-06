@@ -44,7 +44,10 @@ class State
 
     public function rewindOneStep(): void
     {
-
+        $removePartClass = $this->stage->buildDummyPart()->getClass();
+        $this->pickedParts = $this->pickedParts->filter(function (PcPart $part) use ($removePartClass) {
+            return $part->getClass() !== $removePartClass;
+        });
     }
 
     public function addPart(PcPart $part = null): void
@@ -59,10 +62,15 @@ class State
         return $this->pickedParts;
     }
 
+    public function countParts(): int
+    {
+        return $this->pickedParts->count();
+    }
+
     private function compose(): array
     {
         return [
-            'parts' => $this->pickedParts->jsonSerialize(),
+            'parts' => $this->pickedParts->buildIdsMap(),
             'stage' => $this->stage->getIdx()
         ];
     }

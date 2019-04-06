@@ -31,13 +31,13 @@ class Wizard
     public function withStateParts(): self
     {
         $this->state = State::fromCookies($this->requestCookies, $this->stage);
-
+        $this->refreshStage();
         return $this;
     }
 
     public function withParts(PartsCollection $selectedParts): self
     {
-        $this->state = new State($this->stage, $selectedParts);
+        $this->refreshState($selectedParts);
 
         return $this;
     }
@@ -67,11 +67,19 @@ class Wizard
     public function addPart(PcPart $part = null): void
     {
         $this->state->addPart($part);
+        $this->refreshStage();
     }
 
     public function keepState(ResponseInterface $response): ResponseInterface
     {
         return $this->state->prepare($response);
+    }
+
+    public function rewindOneStep(): void
+    {
+        $this->refreshStage($this->state->countParts() - 1);
+        $this->refreshState($this->getStateParts());
+        $this->state->rewindOneStep();
     }
 
     public function getStateParts(): ?PartsCollection
@@ -82,5 +90,15 @@ class Wizard
     public function buildStagePart(): PcPart
     {
         return $this->stage->buildDummyPart();
+    }
+
+    private function refreshStage(int $newStageIdx = 0): void
+    {
+        $this->stage = new Stage($newStageIdx ?: $this->state->countParts());
+    }
+
+    private function refreshState(PartsCollection $partsCollection): void
+    {
+        $this->state = new State($this->stage, $partsCollection);
     }
 }

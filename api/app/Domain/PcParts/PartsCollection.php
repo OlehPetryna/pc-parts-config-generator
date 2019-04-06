@@ -14,10 +14,8 @@ class PartsCollection extends Collection
     public static function fromIdsMap(array $map): self
     {
         $items = [];
-        $namespace = PcPart::ENTITIES_NAMESPACE;
         foreach ($map as $class => $id) {
-            $className = "{$namespace}{$class}";
-            $items[] = $className::find($id);
+            $items[] = $class::find($id);
         }
 
         return new self($items);
@@ -27,5 +25,15 @@ class PartsCollection extends Collection
     public function asArray(): array
     {
         return $this->items;
+    }
+
+    public function buildIdsMap(): array
+    {
+        $map = [];
+        foreach ($this->items as $item) {
+            $map[$item->getClass()] = $item->getKey();
+        }
+
+        return $map;
     }
 }

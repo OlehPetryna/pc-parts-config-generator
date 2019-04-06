@@ -14,7 +14,7 @@
                 <div class="progress-bar bg-primary" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
             </div>
             <p class="px-3 mb-3"><?= "$currentStep / $totalStepsAmount" ?></p>
-            <button type="button" class="ml-3 btn btn-secondary btn-sm">Назад</button>
+            <button type="button" class="ml-3 btn btn-secondary btn-sm btn-rewind-step">Назад</button>
         </div>
         <div class="container">
             <h3>Будь-ласка, оберіть <?= $stepName ?></h3>
@@ -110,13 +110,18 @@
         });
 
         $(document).on('click', '.choose-part-btn', function () {
-            const partId = $(this).data('id') ? $(this).data('id') : $(this).closest('[data-id]').data('id');
+            const partId = $(this).data('id') !== undefined ? $(this).data('id') : $(this).closest('[data-id]').data('id');
 
             const stage = $('#currentStage');
             stage.val(stage.val() * 1 + 1);
 
             $('#pickedPartId').val(partId);
             $('form').submit();
+        });
+
+        $(document).on('click', '.btn-rewind-step', function () {
+            console.log('ss');
+            window.location = '/rewind-wizard-step';
         })
     };
 </script>
