@@ -21,7 +21,7 @@ class Stage
         $stageClassName = $this->config[$this->idx];
 
         $class = PcPart::ENTITIES_NAMESPACE . $stageClassName;
-        return new $class;
+        return new $class();
     }
 
     public function getName(): string

@@ -9,6 +9,7 @@ use DI\Container;
 use DI\ContainerBuilder;
 use function DI\factory;
 use Dotenv\Dotenv;
+use HansOtt\PSR7Cookies\RequestCookies;
 use Illuminate\Database\Capsule\Manager;
 use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
@@ -34,6 +35,9 @@ $containerBuilder->addDefinitions([
             $_FILES
         );
     },
+    RequestCookies::class => function (ServerRequestInterface $request) {
+        return RequestCookies::createFromRequest($request);
+    },
     ResponseInterface::class => function () {
         return new Response();
     },
@@ -50,6 +54,18 @@ $capsule->getDatabaseManager()->extend('mongodb', function ($config, $name) {
     $config['name'] = $name;
     return new Jenssegers\Mongodb\Connection($config);
 });
+
+$capsule->addConnection([
+    'driver' => 'mongodb',
+    'host' => env('DB_HOST', 'localhost'),
+    'port' => env('DB_PORT', 27017),
+    'database' => env('DB_DATABASE'),
+    'username' => env('DB_USERNAME'),
+    'password' => env('DB_PASSWORD'),
+    'options' => [
+        'database' => 'admin' // sets the authentication database required by mongo 3
+    ]
+], 'mongodb');
 
 $capsule->addConnection([
     'driver' => 'mongodb',
@@ -83,8 +99,8 @@ $containerBuilder->addDefinitions([
         return new Stage($nextStageIdx);
     })->parameter('nextStageIdx', DI\get('stageIdx')),
 
-    Wizard::class => factory(function (CompatibilityService $compatibilityService, Stage $stage) {
-        return new Wizard($compatibilityService, $stage);
+    Wizard::class => factory(function (CompatibilityService $compatibilityService, Stage $stage, RequestCookies $cookies) {
+        return new Wizard($compatibilityService, $stage, $cookies);
     })
 ]);
 

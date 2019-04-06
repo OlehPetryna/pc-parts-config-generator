@@ -6,15 +6,17 @@ namespace App\Domain\PickerWizard;
 
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
+use HansOtt\PSR7Cookies\RequestCookies;
 use HansOtt\PSR7Cookies\SetCookie;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class State
 {
     private $stage;
     private $pickedParts;
 
-    private $cookieName = 'wizardState';
+    private static $cookieName = 'wizardState';
 
     public function __construct(Stage $stage, PartsCollection $pickedParts = null)
     {
@@ -22,9 +24,22 @@ class State
         $this->pickedParts = $pickedParts ?: new PartsCollection([]);
     }
 
-    public function prepare(ResponseInterface $response): void
+    public static function fromCookies(RequestCookies $cookies, Stage $stage): self
     {
-        $cookie = SetCookie::thatExpires($this->cookieName, json_encode($this->compose()), (new \DateTimeImmutable())->modify('tomorrow'));
+        $state = $cookies->has(self::$cookieName) ? $cookies->get(self::$cookieName) : null;
+        if ($state) {
+            $state = json_decode($state->getValue(), true);
+            return new self($stage, PartsCollection::fromIdsMap($state['parts']));
+        } else {
+            return new self($stage);
+        }
+    }
+
+    public function prepare(ResponseInterface $response): ResponseInterface
+    {
+        $cookie = SetCookie::thatExpires(self::$cookieName, json_encode($this->compose()), (new \DateTimeImmutable())->modify('tomorrow'));
+
+        return $cookie->addToResponse($response);
     }
 
     public function rewindOneStep(): void
@@ -32,9 +47,11 @@ class State
 
     }
 
-    public function addPart(PcPart $part): void
+    public function addPart(PcPart $part = null): void
     {
-        $this->pickedParts->add($part);
+        if ($part) {
+            $this->pickedParts->add($part);
+        }
     }
 
     public function getParts(): ?PartsCollection
@@ -44,8 +61,8 @@ class State
 
     private function compose(): array
     {
-        $data = [
-            'parts' => [],
+        return [
+            'parts' => $this->pickedParts->jsonSerialize(),
             'stage' => $this->stage->getIdx()
         ];
     }

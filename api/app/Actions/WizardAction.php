@@ -33,6 +33,7 @@ class WizardAction extends HtmlAction
         $totalStepsAmount = $this->wizard->getStepsCount();
         $currentStep = $this->wizard->getCurrentStepIdx();
 
+        $response = $this->wizard->keepState($response);
         return $this->renderer()->render($response, '/wizard.php', [
             'currentStep' => $currentStep,
             'totalStepsAmount' => $totalStepsAmount,
