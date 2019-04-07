@@ -14,5 +14,5 @@ function load(Map $routes, Container $container) {
     $routes->route('wizard', '/wizard', $container->get(WizardAction::class));
     $routes->route('rewind-wizard-step', '/rewind-wizard-step', $container->get(RewindWizardStepAction::class));
     $routes->get('suggest', '/suggest', new SuggestAction());
-    $routes->get('fetchStagePart', '/fetch-stage-parts/', new FetchStagePartsAction());
+    $routes->get('fetchStagePart', '/fetch-stage-parts/', $container->get(FetchStagePartsAction::class));
 }

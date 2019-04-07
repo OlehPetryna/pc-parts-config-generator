@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\PcParts;
 
+use Jenssegers\Mongodb\Eloquent\Builder;
 use Jenssegers\Mongodb\Eloquent\Model;
 
 abstract class PcPart extends Model
@@ -19,5 +20,10 @@ abstract class PcPart extends Model
     public function getClass(): string
     {
         return static::class;
+    }
+
+    public function newQuery(): Builder
+    {
+        return parent::newQuery();
     }
 }

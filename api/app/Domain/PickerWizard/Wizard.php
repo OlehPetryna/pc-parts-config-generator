@@ -7,6 +7,7 @@ use App\Domain\CompatibilityService\CompatibilityService;
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
 use HansOtt\PSR7Cookies\RequestCookies;
+use Jenssegers\Mongodb\Eloquent\Builder;
 use Psr\Http\Message\ResponseInterface;
 
 class Wizard
@@ -40,6 +41,13 @@ class Wizard
         $this->refreshState($selectedParts);
 
         return $this;
+    }
+
+    public function findCompatiblePartsQuery(): Builder
+    {
+        $nextStagePart = $this->stage->buildDummyPart();
+
+        return $this->compatibilityService->findCompatiblePartsQueryForCollection($this->getStateParts(), $nextStagePart);
     }
 
     public function findCompatibleParts(): PartsCollection
@@ -77,7 +85,9 @@ class Wizard
 
     public function rewindOneStep(): void
     {
-        $this->refreshStage($this->state->countParts() - 1);
+        $desirablePartsCount = $this->state->countParts() === 0 ? 0 : $this->state->countParts() - 1;
+
+        $this->refreshStage($desirablePartsCount);
         $this->refreshState($this->getStateParts());
         $this->state->rewindOneStep();
     }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class NullStrategy extends AbstractStrategy
 {
-    public function addAcceptanceCriteria(Builder $query): array
+    public function addAcceptanceCriteria(Builder $query): void
     {
 
     }

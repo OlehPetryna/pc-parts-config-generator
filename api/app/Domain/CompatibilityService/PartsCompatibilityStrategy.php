@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface PartsCompatibilityStrategy
 {
-    public function addAcceptanceCriteria(Builder $query): array;
+    public function addAcceptanceCriteria(Builder $query): void;
 }

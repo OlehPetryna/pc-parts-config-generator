@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\Tools;
 
-
-use App\Domain\PcParts\PartsCollection;
-use Illuminate\Database\Capsule\Manager;
-use Illuminate\Database\Query\Builder;
+use App\Domain\PickerWizard\Wizard;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Jenssegers\Mongodb\Eloquent\Builder;
 use Psr\Http\Message\ServerRequestInterface;
 
 class DataTableHandler
@@ -40,9 +38,9 @@ class DataTableHandler
         return $handler;
     }
 
-    public function fetchEntities(string $collection): LengthAwarePaginator
+    public function fetchEntities(Wizard $wizard): LengthAwarePaginator
     {
-        $query = Manager::table($collection);
+        $query = $wizard->findCompatiblePartsQuery();
 
         $this->addSort($query);
         $this->addSearchFilter($query);

@@ -52,7 +52,7 @@
                         const idx = settings.row;
                         return `
                             <div class="d-flex flex-wrap">
-                                <button type="button" data-id="${currentEntry._id.$oid  }" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
+                                <button type="button" data-id="${currentEntry._id}" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
                                 <button type="button" data-idx="${idx}" class="w-100 part-details-btn btn btn-outline-info">Деталі</button>
                             </div>
                             `
