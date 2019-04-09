@@ -26,4 +26,9 @@ abstract class PcPart extends Model
     {
         return parent::newQuery();
     }
+
+    public function getPowerConsumption(): int
+    {
+        return 0;
+    }
 }

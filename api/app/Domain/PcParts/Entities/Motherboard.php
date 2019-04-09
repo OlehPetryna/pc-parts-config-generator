@@ -8,5 +8,17 @@ use App\Domain\PcParts\PcPart;
 
 class Motherboard extends PcPart
 {
+    public function getAvailableMemoryTypes(): array
+    {
+        $rawTypes = $this->getAttribute('specifications')['Memory Type']['value'];
+        $types = explode(' / ', $rawTypes);
+        $typePrefix = preg_filter('/-\d+$/', '', $types[0]);
 
+        $result = [array_shift($types)];
+        foreach ($types as $type) {
+            $result[] = $typePrefix . '-' . $type;
+        }
+
+        return $result;
+    }
 }

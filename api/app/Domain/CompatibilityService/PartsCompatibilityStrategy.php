@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CompatibilityService;
 
-
-use Illuminate\Database\Eloquent\Builder;
+use Jenssegers\Mongodb\Eloquent\Builder;
 
 interface PartsCompatibilityStrategy
 {

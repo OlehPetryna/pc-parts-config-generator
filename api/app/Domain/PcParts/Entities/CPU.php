@@ -8,4 +8,14 @@ use App\Domain\PcParts\PcPart;
 class CPU extends PcPart
 {
     protected $collection = 'cpu';
+
+    public function getMaximumSupportedMemory(): int
+    {
+        return (int)$this->getAttribute('specifications')['Maximum Supported Memory']['value'];
+    }
+
+    public function getPowerConsumption(): int
+    {
+        return (int)$this->getAttribute('specifications')['Thermal Design Power']['value'];
+    }
 }

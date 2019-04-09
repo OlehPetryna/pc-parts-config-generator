@@ -102,9 +102,9 @@ class Wizard
         return $this->stage->buildDummyPart();
     }
 
-    private function refreshStage(int $newStageIdx = 0): void
+    private function refreshStage(int $newStageIdx = null): void
     {
-        $this->stage = new Stage($newStageIdx ?: $this->state->countParts());
+        $this->stage = new Stage($newStageIdx ?? $this->state->countParts());
     }
 
     private function refreshState(PartsCollection $partsCollection): void

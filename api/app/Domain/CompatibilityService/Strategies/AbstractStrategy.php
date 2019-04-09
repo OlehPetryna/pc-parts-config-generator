@@ -10,13 +10,14 @@ use App\Domain\PcParts\PcPart;
 
 abstract class AbstractStrategy implements PartsCompatibilityStrategy
 {
-    /**@var PcPart $shouldBeCompatibleWithPart*/
-    protected $shouldBeCompatibleWithPart;
+    /**@var PcPart $findingCompatibilityForPart*/
+    protected $findingCompatibilityForPart;
     /**@var PartsCollection $compatibilityContextCollection*/
     protected $compatibilityContextCollection;
 
-    public function __construct(PcPart $shouldBeCompatibleWithPart, PartsCollection $compatibilityContextCollection)
+    public function __construct(PcPart $findingCompatibilityForPart, PartsCollection $compatibilityContextCollection)
     {
-        $this->shouldBeCompatibleWithPart = $shouldBeCompatibleWithPart;
+        $this->findingCompatibilityForPart = $findingCompatibilityForPart;
+        $this->compatibilityContextCollection = $compatibilityContextCollection;
     }
 }

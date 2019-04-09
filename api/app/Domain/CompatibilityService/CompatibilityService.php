@@ -20,10 +20,9 @@ class CompatibilityService
     public function findCompatiblePartsQueryForCollection(PartsCollection $partsCollection, PcPart $partOfNeededType): Builder
     {
         $query = $partOfNeededType->newQuery();
-        foreach ($partsCollection as $item) {
-            $strategy = $this->context->pickCompatibilityStrategy($item, $partOfNeededType, $partsCollection);
-            $strategy->addAcceptanceCriteria($query);
-        }
+
+        $strategy = $this->context->pickCompatibilityStrategy($partOfNeededType, $partsCollection);
+        $strategy->addAcceptanceCriteria($query);
 
         return $query;
     }

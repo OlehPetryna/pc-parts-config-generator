@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CompatibilityService\Strategies;
 
-
-use Illuminate\Database\Eloquent\Builder;
+use Jenssegers\Mongodb\Eloquent\Builder;
 
 class NullStrategy extends AbstractStrategy
 {
