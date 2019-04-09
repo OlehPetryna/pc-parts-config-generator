@@ -21,4 +21,9 @@ class Motherboard extends PcPart
 
         return $result;
     }
+
+    public function getMaximumSupportedMemory(): int
+    {
+        return (int)$this->getAttribute('specifications')['Maximum Supported Memory']['value'];
+    }
 }

@@ -21,7 +21,6 @@ class PartsCollection extends Collection
         return new self($items);
     }
 
-
     public function asArray(): array
     {
         return $this->items;
@@ -35,5 +34,10 @@ class PartsCollection extends Collection
         }
 
         return $map;
+    }
+
+    public function toArray(): array
+    {
+        return $this->jsonSerialize();
     }
 }

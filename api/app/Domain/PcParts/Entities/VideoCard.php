@@ -12,4 +12,9 @@ class VideoCard extends PcPart
     {
         return (int)$this->getAttribute('specifications')['TDP']['value'];
     }
+
+    public function getLength(): int
+    {
+        return (int) $this->getAttribute('specifications')['Length']['value'];
+    }
 }

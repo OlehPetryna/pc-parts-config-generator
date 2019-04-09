@@ -31,4 +31,23 @@ abstract class PcPart extends Model
     {
         return 0;
     }
+
+    public function getLargeImg(): ?string
+    {
+        $img = $this->img;
+
+        $imgHasDimension = preg_match('/\.\d+p\.(?>jpg|png)$/', $img);
+        if ($imgHasDimension) {
+            return str_replace('256p', '1600', $img);
+        }
+
+        return null;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array_replace(parent::jsonSerialize(), [
+            'largeImg' => $this->getLargeImg(),
+        ]);
+    }
 }

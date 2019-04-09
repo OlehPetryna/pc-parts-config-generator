@@ -29,10 +29,11 @@ class MemoryStrategy extends AbstractStrategy
 
         if ($motherboard) {
             $query->whereIn('specifications.Speed.value', $motherboard->getAvailableMemoryTypes());
+            $query->where('memorySize', '<=', $motherboard->getMaximumSupportedMemory());
         }
 
-        if ($cpu) {
-            $query->where('memorySize', '<=', $cpu->getMaximumSupportedMemory());
+        if ($cpu && ($cpuMaxSupportedMemory = $cpu->getMaximumSupportedMemory())) {
+            $query->where('memorySize', '<=', $cpuMaxSupportedMemory);
         }
     }
 }
