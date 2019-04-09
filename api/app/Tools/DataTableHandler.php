@@ -66,9 +66,13 @@ class DataTableHandler
         $search = $this->search['value'];
         if ($search !== '') {
             foreach ($this->columns as $column) {
-                if (filter_var($column['searchable'], FILTER_VALIDATE_BOOLEAN) === false) continue;
+                if (filter_var($column['searchable'], FILTER_VALIDATE_BOOLEAN) === false) {
+                    continue;
+                }
 
-                $query->orWhere($column['name'], 'like', "%{$search}%");
+                $query
+                    ->orWhere($column['name'], 'like', "%{$search}%");
+//@TODO search on nested fields                    ->orWhereJsonContains('specifications', $search);
             }
         }
     }

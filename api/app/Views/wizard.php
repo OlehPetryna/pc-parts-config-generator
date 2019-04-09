@@ -62,8 +62,8 @@
                     name: 'img',
                     searchable: false,
                     orderable: false,
-                    render: function (data) {
-                        return `<img class="parts-table-image" src="${data}"/>`
+                    render: function (imgSrc, something, dataEntry) {
+                        return `<img class="parts-table-image" src="${imgSrc}" data-lg-img="${dataEntry.largeImg}"/>`
                     }
                 }, {
                     data: 'title',
@@ -120,8 +120,19 @@
         });
 
         $(document).on('click', '.btn-rewind-step', function () {
-            console.log('ss');
             window.location = '/rewind-wizard-step';
-        })
+        });
+
+        dataTable.on('draw.dt', function () {
+            $('.parts-table-image').each(function () {
+                const lgImg = $(this).data('lg-img');
+                if (lgImg) {
+                    $(this).addClass('zoomable-image');
+                    $(this).closest('td').zoom({
+                        url: lgImg,
+                    })
+                }
+            });
+        });
     };
 </script>

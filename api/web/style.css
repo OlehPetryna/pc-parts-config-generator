@@ -40,3 +40,7 @@ a, .btn, a:hover, .btn:hover {
 .part-details-modal {
     width: 65vw;
 }
+
+.zoomable-image, .zoomable-image + img {
+    cursor: zoom-in;
+}

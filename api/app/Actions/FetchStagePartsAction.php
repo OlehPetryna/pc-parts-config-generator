@@ -31,7 +31,7 @@ class FetchStagePartsAction extends Action
                 'draw' => $request->getAttribute('draw'),
                 'recordsTotal' => $entities->total(),
                 'recordsFiltered' => $entities->total(),
-                'data' => $entities->items()
+                'data' => $entities->jsonSerialize()['data']
             ])
         );
 
