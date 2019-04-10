@@ -87,7 +87,7 @@
 
             for (let i in data.specifications) {
                 const specification = data.specifications[i];
-                content.append(`<tr><th>${specification.key}</th><td>${specification.value}</td></tr>`);
+                content.append(`<tr><th>${specification.translation}</th><td>${specification.value}</td></tr>`);
             }
 
             console.log(data);

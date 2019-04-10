@@ -25,6 +25,9 @@ class SummaryAction extends HtmlAction
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $partsCollection = $this->wizard->getStateParts();
+        $partsCollection->each(function (PcPart $part) {
+            $part->addTranslationToSpecs();
+        });
 
         return $this->renderer()->render($response, '/summary.php', [
             'parts' => $partsCollection

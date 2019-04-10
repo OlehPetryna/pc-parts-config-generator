@@ -36,9 +36,9 @@ use App\Domain\PcParts\PcPart;
                                 <div class="table-responsive px-3 py-2">
                                     <table id="partsTable" class="table table-striped">
                                         <tbody>
-                                        <?php foreach ($part->specifications as $specification): ?>
+                                        <?php foreach ($part->specifications as $key => $specification): ?>
                                             <tr>
-                                                <th><?= $specification['key'] ?></th>
+                                                <th><?= $specification['translation'] ?></th>
                                                 <td><?= $specification['value'] ?></td>
                                             </tr>
                                         <?php endforeach; ?>

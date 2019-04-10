@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Domain\PcParts;
 
+use App\Domain\PcParts\Entities\Specification;
 use Jenssegers\Mongodb\Eloquent\Builder;
 use Jenssegers\Mongodb\Eloquent\Model;
 
@@ -27,6 +28,18 @@ abstract class PcPart extends Model
         return parent::newQuery();
     }
 
+
+    public function addTranslationToSpecs(): void
+    {
+        $specifications = $this->getAttribute('specifications') ?? [];
+
+        foreach ($specifications as $key => $specification) {
+            $specifications[$key]['translation'] = Specification::translateFor($key);
+        }
+
+        $this->setAttribute('specifications', $specifications);
+    }
+
     public function getPowerConsumption(): int
     {
         return 0;
@@ -46,6 +59,7 @@ abstract class PcPart extends Model
 
     public function jsonSerialize(): array
     {
+        $this->addTranslationToSpecs();
         return array_replace(parent::jsonSerialize(), [
             'largeImg' => $this->getLargeImg(),
         ]);
