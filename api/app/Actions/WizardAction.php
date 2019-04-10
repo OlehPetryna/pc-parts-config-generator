@@ -24,6 +24,10 @@ class WizardAction extends HtmlAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        if ($this->wizard->endReached()) {
+            return $response->withHeader('Location', '/summary');
+        }
+
         /**@var PcPart $pickedModel*/
         $pickedModel = $this->wizard->buildStagePart()->newQuery()->find($request->getAttribute('partId'));
 
@@ -31,7 +35,7 @@ class WizardAction extends HtmlAction
         $response = $this->wizard->keepState($response);
 
         if ($this->wizard->endReached()) {
-            return $response->withHeader('Location', '/wizard-summary');
+            return $response->withHeader('Location', '/summary');
         }
 
         $currentStepName = $this->wizard->getCurrentStepName();

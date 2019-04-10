@@ -44,3 +44,11 @@ a, .btn, a:hover, .btn:hover {
 .zoomable-image, .zoomable-image + img {
     cursor: zoom-in;
 }
+
+#summaryWrapper .part-img {
+    max-width: 35vw;
+}
+
+th {
+    font-weight: bold;
+}
