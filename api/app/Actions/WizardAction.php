@@ -28,12 +28,16 @@ class WizardAction extends HtmlAction
         $pickedModel = $this->wizard->buildStagePart()->newQuery()->find($request->getAttribute('partId'));
 
         $this->wizard->addPart($pickedModel);
+        $response = $this->wizard->keepState($response);
+
+        if ($this->wizard->endReached()) {
+            return $response->withHeader('Location', '/wizard-summary');
+        }
 
         $currentStepName = $this->wizard->getCurrentStepName();
         $totalStepsAmount = $this->wizard->getStepsCount();
         $currentStep = $this->wizard->getCurrentStepIdx();
 
-        $response = $this->wizard->keepState($response);
         return $this->renderer()->render($response, '/wizard.php', [
             'currentStep' => $currentStep,
             'totalStepsAmount' => $totalStepsAmount,

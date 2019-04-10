@@ -102,6 +102,11 @@ class Wizard
         return $this->stage->buildDummyPart();
     }
 
+    public function endReached(): bool
+    {
+        return$this->stage->allStagesPassed();
+    }
+
     private function refreshStage(int $newStageIdx = null): void
     {
         $this->stage = new Stage($newStageIdx ?? $this->state->countParts());

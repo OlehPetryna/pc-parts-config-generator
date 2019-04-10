@@ -34,7 +34,7 @@ abstract class PcPart extends Model
 
     public function getLargeImg(): ?string
     {
-        $img = $this->img;
+        $img = $this->img ?? '';
 
         $imgHasDimension = preg_match('/\.\d+p\.(?>jpg|png)$/', $img);
         if ($imgHasDimension) {

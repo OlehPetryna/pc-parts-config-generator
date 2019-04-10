@@ -65,15 +65,19 @@ class DataTableHandler
     {
         $search = $this->search['value'];
         if ($search !== '') {
-            foreach ($this->columns as $column) {
-                if (filter_var($column['searchable'], FILTER_VALIDATE_BOOLEAN) === false) {
-                    continue;
+            $applicableColumns = array_filter($this->columns, function ($v) {
+                return filter_var($v['searchable'], FILTER_VALIDATE_BOOLEAN) !== false;
+            });
+
+            $query->whereNested(function ($query) use ($applicableColumns, $search) {
+
+                foreach ($applicableColumns as $column) {
+                    $query->orWhere($column['name'], 'like', "%{$search}%");
                 }
 
-                $query
-                    ->orWhere($column['name'], 'like', "%{$search}%");
-//@TODO search on nested fields                    ->orWhereJsonContains('specifications', $search);
-            }
+//                $query->orWhere('specifications.L3 Cache.value', 'regex', "/$search/");
+
+            });
         }
     }
 }

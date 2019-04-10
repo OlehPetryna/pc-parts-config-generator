@@ -24,6 +24,11 @@ class Stage
         return new $class();
     }
 
+    public function allStagesPassed():bool
+    {
+        return $this->getIdx() >= $this->getStagesCount();
+    }
+
     public function getName(): string
     {
         return $this->config[$this->idx];
