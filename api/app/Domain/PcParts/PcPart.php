@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Domain\PcParts;
 
 use App\Domain\PcParts\Entities\Specification;
+use App\Tools\ColumnListing;
 use Jenssegers\Mongodb\Eloquent\Builder;
 use Jenssegers\Mongodb\Eloquent\Model;
 
@@ -18,6 +19,11 @@ abstract class PcPart extends Model
         return new PartsCollection($models);
     }
 
+    public function getAvailableSpecifications(): array
+    {
+        return ColumnListing::getSpecificationListing($this);
+    }
+
     public function getClass(): string
     {
         return static::class;
@@ -27,7 +33,6 @@ abstract class PcPart extends Model
     {
         return parent::newQuery();
     }
-
 
     public function addTranslationToSpecs(): void
     {

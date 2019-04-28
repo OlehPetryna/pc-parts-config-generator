@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tools;
 
+use App\Domain\PcParts\PcPart;
 use App\Domain\PickerWizard\Wizard;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Jenssegers\Mongodb\Eloquent\Builder;
@@ -42,8 +43,11 @@ class DataTableHandler
     {
         $query = $wizard->findCompatiblePartsQuery();
 
+        $model = $wizard->buildStagePart();
+        $modelSpecs = $this->buildSpecsColumns($model);
+
         $this->addSort($query);
-        $this->addSearchFilter($query);
+        $this->addSearchFilter($query, $modelSpecs);
 
         return $query->paginate($this->pageSize, ['*'], 'page', floor($this->startAt / $this->pageSize));
     }
@@ -61,7 +65,7 @@ class DataTableHandler
         }
     }
 
-    private function addSearchFilter(Builder $query): void
+    private function addSearchFilter(Builder $query, array $additionalCols = []): void
     {
         $search = $this->search['value'];
         if ($search !== '') {
@@ -69,13 +73,20 @@ class DataTableHandler
                 return filter_var($v['searchable'], FILTER_VALIDATE_BOOLEAN) !== false;
             });
 
-            $query->whereNested(function ($query) use ($applicableColumns, $search) {
+            $applicableColumns = array_merge($applicableColumns, $additionalCols);
 
+            $query->whereNested(function (\Jenssegers\Mongodb\Query\Builder $query) use ($applicableColumns, $search) {
                 foreach ($applicableColumns as $column) {
                     $query->orWhere($column['name'], 'like', "%{$search}%");
                 }
-
             });
         }
+    }
+
+    private function buildSpecsColumns(PcPart $part): array
+    {
+        return array_map(function (string $specName) {
+            return ['name' => "specifications.$specName.value"];
+        }, $part->getAvailableSpecifications());
     }
 }
