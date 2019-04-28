@@ -75,8 +75,6 @@ class DataTableHandler
                     $query->orWhere($column['name'], 'like', "%{$search}%");
                 }
 
-//                $query->orWhere('specifications.L3 Cache.value', 'regex', "/$search/");
-
             });
         }
     }

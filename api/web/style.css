@@ -52,3 +52,15 @@ a, .btn, a:hover, .btn:hover {
 th {
     font-weight: bold;
 }
+
+@media screen and (max-width: 767px) {
+    .choose-section-illustration {
+        max-width: unset;
+        max-height: unset;
+        width: unset;
+    }
+
+    .part-details-modal {
+        width: 100vw;
+    }
+}

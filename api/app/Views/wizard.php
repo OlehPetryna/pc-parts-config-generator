@@ -17,7 +17,7 @@
             <button type="button" class="ml-3 btn btn-secondary btn-sm btn-rewind-step">Назад</button>
         </div>
         <div class="container">
-            <h3>Будь-ласка, оберіть <?= $stepName ?></h3>
+            <h3>Будь ласка, оберіть <?= $stepName ?></h3>
             <div class="table-responsive px-3 py-2">
                 <table id="partsTable" class="table table-striped">
                     <thead>
@@ -79,8 +79,8 @@
 
         $(document).on('click', '.part-details-btn', function () {
             const data = dataTable.data()[$(this).data('idx')];
-            const content = $(
-                `<table data-id="${data._id.$oid}" class="table table-striped">
+            let content = $(
+                `<table data-id="${data._id}" class="table table-striped">
                     <tr><th>Ціна</th><td>${data.price}</td></tr>
                 </table>`
             );
@@ -90,7 +90,6 @@
                 content.append(`<tr><th>${specification.translation}</th><td>${specification.value}</td></tr>`);
             }
 
-            console.log(data);
             swal({
                 className: 'part-details-modal',
                 title: data.title,
@@ -99,10 +98,13 @@
                     success: {
                         text: 'Обрати',
                         value: true,
+                        type: 'button',
                         className: 'choose-part-btn'
                     }
                 }
             });
+
+            $('.choose-part-btn').attr('type', 'button');
 
             setTimeout(function () {
                 $('.swal-overlay--show-modal').scrollTop(0)
