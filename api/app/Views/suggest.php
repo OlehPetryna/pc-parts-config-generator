@@ -24,7 +24,7 @@ $maxAvailablePriority = count($questions);
                         <?= $text ?>
                     </span>
                     <span class="priorities col-12 col-sm-12 col-md-5">
-                        <?php foreach (range(0, $maxAvailablePriority) as $priority): ?>
+                        <?php foreach (range(1, $maxAvailablePriority) as $priority): ?>
                             <input type="radio"
                                    name="<?= $name ?>"
                                    id="<?= $name . $priority ?>"
