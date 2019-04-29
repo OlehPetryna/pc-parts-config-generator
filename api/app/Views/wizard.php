@@ -74,7 +74,31 @@
                 },
             ],
             serverSide: true,
-            ajax: `/fetch-stage-parts/?stage=${stage}`
+            ajax: `/fetch-stage-parts/?stage=${stage}`,
+            language: {
+                "decimal":        "",
+                "emptyTable":     "Відповідних результатів не знайдено",
+                "info":           "Відображається від _START_ до _END_ з _TOTAL_ результатів",
+                "infoEmpty":      "Результатів немає",
+                "infoFiltered":   "(відфільтровано з _MAX_ можливих результатів)",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "Показати по _MENU_ записів",
+                "loadingRecords": "Загрузка...",
+                "processing":     "Обробка...",
+                "search":         "Пошук:",
+                "zeroRecords":    "Відповідних результатів не знайдено",
+                "paginate": {
+                    "first":      "Перша",
+                    "last":       "Остання",
+                    "next":       "Наступна",
+                    "previous":   "Попередня"
+                },
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+            }
         });
 
         $(document).on('click', '.part-details-btn', function () {
