@@ -15,28 +15,31 @@ class SuggestionPriority
         2 => 'top',
     ];
 
-    public static function highest(): self
+    private $isProfessionalPurpose;
+
+    public static function highest(bool $isProfessionalPurpose = false): self
     {
-        return new self(2);
+        return new self(2, $isProfessionalPurpose);
     }
 
-    public static function medium(): self
+    public static function medium(bool $isProfessionalPurpose = false): self
     {
-        return new self(1);
+        return new self(1, $isProfessionalPurpose);
     }
 
-    public static function lowest(): self
+    public static function lowest(bool $isProfessionalPurpose = false): self
     {
-        return new self(0);
+        return new self(0, $isProfessionalPurpose);
     }
 
-    public function __construct(int $priority)
+    public function __construct(int $priority, bool $isProfessionalPurpose = false)
     {
         if (!isset(self::$availablePriorities[$priority])) {
             throw new InvalidArgumentException();
         }
 
         $this->priority = $priority;
+        $this->isProfessionalPurpose = $isProfessionalPurpose;
     }
 
     public function isHighest(): bool
@@ -52,6 +55,11 @@ class SuggestionPriority
     public function isLowest(): bool
     {
         return $this->priority === 0;
+    }
+
+    public function professionalPurpose(): bool
+    {
+        return $this->isProfessionalPurpose;
     }
 
     public function __toString(): string

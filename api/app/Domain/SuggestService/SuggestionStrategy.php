@@ -17,7 +17,7 @@ abstract class SuggestionStrategy
     /**
      * @var PartsCollection
      */
-    protected  $alreadySuggestedParts;
+    protected $alreadySuggestedParts;
 
     public function __construct(PartsCollection $alreadySuggestedParts, SuggestionPriority $suggestionPriority)
     {

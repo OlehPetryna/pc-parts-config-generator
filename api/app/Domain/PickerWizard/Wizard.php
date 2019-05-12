@@ -27,6 +27,8 @@ class Wizard
         $this->stage = $stage;
         $this->compatibilityService = $compatibilityService;
         $this->requestCookies = $cookies;
+
+        $this->state = new State($stage);
     }
 
     public function withStateParts(): self

@@ -12,14 +12,20 @@ use Aura\Router\Map;
 use DI\Container;
 
 function load(Map $routes, Container $container) {
-    $routes->get('index', '/', $container->get(IndexAction::class));
+    $wrapAction = function ($actionName) use ($container){
+        return function (...$params) use ($actionName, $container) {
+            return $container->call($container->get($actionName), $params);
+        };
+    };
 
-    $routes->route('wizard', '/wizard', $container->get(WizardAction::class));
-    $routes->route('rewind-wizard-step', '/rewind-wizard-step', $container->get(RewindWizardStepAction::class));
-    $routes->get('fetchStagePart', '/fetch-stage-parts/', $container->get(FetchStagePartsAction::class));
+    $routes->get('index', '/', $wrapAction(IndexAction::class));
 
-    $routes->get('suggest', '/suggest', new SuggestAction());
-    $routes->post('complete-suggest', '/complete-suggestion', $container->get(CompleteSuggestionAction::class));
+    $routes->route('wizard', '/wizard', $wrapAction(WizardAction::class));
+    $routes->route('rewind-wizard-step', '/rewind-wizard-step', $wrapAction(RewindWizardStepAction::class));
+    $routes->get('fetchStagePart', '/fetch-stage-parts/', $wrapAction(FetchStagePartsAction::class));
 
-    $routes->get('summary', '/summary', $container->get(SummaryAction::class));
+    $routes->get('suggest', '/suggest', $wrapAction(SuggestAction::class));
+    $routes->post('complete-suggest', '/complete-suggestion', $wrapAction(CompleteSuggestionAction::class));
+
+    $routes->get('summary', '/summary', $wrapAction(SummaryAction::class));
 }

@@ -5,10 +5,13 @@ namespace App\Domain\SuggestService;
 
 use App\Domain\PcParts\Entities\CPU;
 use App\Domain\PcParts\Entities\Motherboard;
+use App\Domain\PcParts\Entities\RAM;
 use App\Domain\PcParts\Entities\VideoCard;
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
 use App\Domain\SuggestService\Strategies\CPUSuggestionStrategy;
+use App\Domain\SuggestService\Strategies\GraphicsSuggestionStrategy;
+use App\Domain\SuggestService\Strategies\MemorySuggestionStrategy;
 use App\Domain\SuggestService\Strategies\MotherboardSuggestionStrategy;
 
 class SuggestionContext
@@ -32,7 +35,11 @@ class SuggestionContext
         }
 
         if ($part instanceof VideoCard) {
-            return new CPUSuggestionStrategy($alreadySuggestedParts, $this->categories->getGraphicsPriority());
+            return new GraphicsSuggestionStrategy($alreadySuggestedParts, $this->categories->getGraphicsPriority());
+        }
+
+        if ($part instanceof RAM) {
+            return new MemorySuggestionStrategy($alreadySuggestedParts, $this->categories->getMemoryPriority());
         }
     }
 }

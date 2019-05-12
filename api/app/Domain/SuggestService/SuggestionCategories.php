@@ -41,12 +41,14 @@ class SuggestionCategories
         $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'cpu-intensive']);
         $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive']) || $this->isCategoryRatedHigh('multimedia');
 
+        $isProfessionalPurpose = $this->isCategoryRatedHigh('cpu-intensive') || $this->isCategoryRatedMedium('cpu-intensive');
+
         if ($shouldReturnHighestPriority) {
-            return SuggestionPriority::highest();
+            return SuggestionPriority::highest($isProfessionalPurpose);
         }
 
         if ($shouldReturnMidPriority) {
-            return SuggestionPriority::medium();
+            return SuggestionPriority::medium($isProfessionalPurpose);
         }
 
         return SuggestionPriority::lowest();
@@ -56,6 +58,24 @@ class SuggestionCategories
     {
         $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'graphics']);
         $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'graphics']) || $this->isCategoryRatedHigh('multimedia');
+
+        $isProfessionalPurpose = $this->isCategoryRatedHigh('graphics') || $this->isCategoryRatedMedium('graphics');
+
+        if ($shouldReturnHighestPriority) {
+            return SuggestionPriority::highest($isProfessionalPurpose);
+        }
+
+        if ($shouldReturnMidPriority) {
+            return SuggestionPriority::medium($isProfessionalPurpose);
+        }
+
+        return SuggestionPriority::lowest();
+    }
+
+    public function getMemoryPriority(): SuggestionPriority
+    {
+        $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'graphics', 'cpu-intensive']);
+        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'graphics', 'cpu-intensive']);
 
         if ($shouldReturnHighestPriority) {
             return SuggestionPriority::highest();
@@ -102,17 +122,22 @@ class SuggestionCategories
 
     private function isCategoryRatedHigh(string $category): bool
     {
-        return $this->ratedCategories[$category] === 5;
+        return $this->getCategoryPriority($category) === 5;
     }
 
     private function isCategoryRatedMedium(string $category): bool
     {
-        return $this->ratedCategories[$category] >= 3 && $this->ratedCategories[$category] <= 4;
+        return $this->getCategoryPriority($category) >= 3 && $this->getCategoryPriority($category) <= 4;
     }
 
     private function isCategoryRatedLow(string $category): bool
     {
-        return $this->ratedCategories[$category] <= 2;
+        return $this->getCategoryPriority($category) <= 2;
+    }
+
+    private function getCategoryPriority(string $category): int
+    {
+        return (int)$this->ratedCategories[$category];
     }
 
 
