@@ -9,14 +9,17 @@ $questions = [
 
 $maxAvailablePriority = count($questions);
 ?>
-<div class="whole-screen-min-height py-2 px-3">
+<div id="suggestLoader" class="spinner-grow text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+</div>
+<div id="suggestPage" class="whole-screen-min-height py-2 px-3">
     <h2>
         Нам необхідно знати, як само Ви збираєтесь використовувати Ваш ПК
     </h2>
     <h4 class="text-secondary">
         Розставте пріоритети можливих сценаріїв використання
     </h4>
-    <form action="/" method="post">
+    <form action="/complete-suggestion" method="post" id="suggestForm">
         <div id="questions-wrapper" class="w-75 mx-auto mt-4">
             <?php foreach ($questions as $name => $text): ?>
                 <div class="question row mx-0">
@@ -52,3 +55,26 @@ $maxAvailablePriority = count($questions);
         </div>
     </form>
 </div>
+
+<script>
+    window.onload = function() {
+        $('#suggestForm').on('submit', function (e) {
+            const $page = $('#suggestPage');
+            const $loader = $('#suggestLoader');
+            const $form = $page.find('form');
+
+            $page.fadeOut('fast', () => $loader.show());
+
+            $.ajax({
+                url: $form.attr('action'),
+                data: new FormData($form[0]),
+                processData: false,
+            })
+                .success((data, status, request) => {
+                    console.log(arguments);
+                });
+
+            return false;
+        })
+    };
+</script>
