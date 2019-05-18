@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class CompleteSuggestionAction extends Action
 {
-    /**@var Wizard $wizard*/
+    /**@var Wizard $wizard */
     private $wizard;
 
     public function __construct(Wizard $wizard)
@@ -22,13 +22,22 @@ class CompleteSuggestionAction extends Action
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $suggestionCategories = new SuggestionCategories($request->getAttribute('Question', []));
+        $redirectUrl = null;
+        try {
+            $suggestionCategories = new SuggestionCategories($request->getAttribute('Question', []));
 
-        $suggestionService = new SuggestService($this->wizard);
-        $suggestionService->completeSuggestion($suggestionCategories);
+            $suggestionService = new SuggestService($this->wizard);
+            $suggestionService->completeSuggestion($suggestionCategories);
 
-        $this->wizard->keepState($response);
+            $response = $this->wizard->keepState($response);
 
-        return $response->withHeader('Location', '/summary');
+            $redirectUrl = '/summary';
+        } catch (\Exception $e) {
+            $response = $this->wizard->removeState($response);
+            $redirectUrl = '/suggest?error=error';
+        } finally {
+            return $response->withHeader('Location', $redirectUrl);
+        }
+
     }
 }

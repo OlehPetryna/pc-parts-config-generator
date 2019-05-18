@@ -11,11 +11,14 @@ class CPU extends PcPart
 
     public function getMaximumSupportedMemory(): int
     {
-        return (int)$this->getAttribute('specifications')['Maximum Supported Memory']['value'];
+        $specs = $this->getAttribute('specifications');
+        $value = $specs && isset($specs['Maximum Supported Memory']) ? $this->getAttribute('specifications')['Maximum Supported Memory'] : null;
+
+        return $value ? (int)$value['value'] : 0;
     }
 
     public function getPowerConsumption(): int
     {
-        return (int)$this->getAttribute('specifications')['Thermal Design Power']['value'];
+        return (int)$this->getAttribute('specifications')['TDP']['value'];
     }
 }

@@ -10,14 +10,14 @@ class RAM extends PcPart
 {
     public function getSize(): ?int
     {
-        $rawSize = $this->getAttribute('specifications')['Size']['value'];
+        $rawSize = $this->getAttribute('specifications')['Modules']['value'];
 
         if (!$rawSize) {
             return null;
         }
 
-        preg_match('/^(?<size>\d+) GB/', $rawSize, $matches);
+        preg_match('/^(?<qty>\d{1}) x (?<size>\d+)/', $rawSize, $matches);
 
-        return (int)$matches['size'];
+        return (int)$matches['size'] * (int)$matches['qty'];
     }
 }

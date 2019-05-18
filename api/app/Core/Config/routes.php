@@ -25,6 +25,7 @@ function load(Map $routes, Container $container) {
     $routes->get('fetchStagePart', '/fetch-stage-parts/', $wrapAction(FetchStagePartsAction::class));
 
     $routes->get('suggest', '/suggest', $wrapAction(SuggestAction::class));
+
     $routes->post('complete-suggest', '/complete-suggestion', $wrapAction(CompleteSuggestionAction::class));
 
     $routes->get('summary', '/summary', $wrapAction(SummaryAction::class));

@@ -17,14 +17,14 @@ class CPUSuggestionStrategy extends SuggestionStrategy
     public function filterSelectedCompatibleParts(PartsCollection $collection): PcPart
     {
         $collection = $collection->sort(function (PcPart $partA, PcPart $partB) {
-            $aCores = (int)$partA->getAttribute('specifications')['Cores']['value'];
-            $bCores = (int)$partB->getAttribute('specifications')['Cores']['value'];
+            $aCores = (int)$partA->getAttribute('specifications')['Core Count']['value'];
+            $bCores = (int)$partB->getAttribute('specifications')['Core Count']['value'];
 
-            $aFrequency = (float)$partA->getAttribute('specifications')['Operating Frequency']['value'];
-            $bFrequency = (float)$partB->getAttribute('specifications')['Operating Frequency']['value'];
+            $aFrequency = (float)$partA->getAttribute('specifications')['Core Clock']['value'];
+            $bFrequency = (float)$partB->getAttribute('specifications')['Core Clock']['value'];
 
-            $aTurboFrequency = (float)$partA->getAttribute('specifications')['Turbo Frequency']['value'];
-            $bTurboFrequency = (float)$partB->getAttribute('specifications')['Turbo Frequency']['value'];
+            $aTurboFrequency = (float)$partA->getAttribute('specifications')['Boost Clock']['value'];
+            $bTurboFrequency = (float)$partB->getAttribute('specifications')['Boost Clock']['value'];
 
             $aIsMorePowerfullThanB = -1;
             $bIsMorePowerfullThanA = 1;

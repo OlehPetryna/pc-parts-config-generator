@@ -31,6 +31,13 @@ class Wizard
         $this->state = new State($stage);
     }
 
+    public function withEmptyState(): self
+    {
+        $this->state = new State($this->stage);
+        $this->refreshStage();
+        return $this;
+    }
+
     public function withStateParts(): self
     {
         $this->state = State::fromCookies($this->requestCookies, $this->stage);
@@ -78,6 +85,11 @@ class Wizard
     {
         $this->state->addPart($part);
         $this->refreshStage();
+    }
+
+    public function removeState(ResponseInterface $response): ResponseInterface
+    {
+        return $this->state->clear($response);
     }
 
     public function keepState(ResponseInterface $response): ResponseInterface

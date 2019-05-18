@@ -19,7 +19,7 @@ class SocketStrategy extends AbstractStrategy
         $query->where(
             'specifications.Socket.value',
             '=',
-            $motherboard->getAttribute('specifications')['CPU Socket']['value']
+            $motherboard->getAttribute('specifications')['Socket / CPU']['value']
         );
     }
 }

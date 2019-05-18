@@ -24,6 +24,8 @@ class CompatibilityService
         $strategy = $this->context->pickCompatibilityStrategy($partOfNeededType, $partsCollection);
         $strategy->addAcceptanceCriteria($query);
 
+        $query->where('price', '!=', '');
+
         return $query;
     }
 

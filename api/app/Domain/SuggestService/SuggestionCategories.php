@@ -36,6 +36,22 @@ class SuggestionCategories
         return SuggestionPriority::lowest();
     }
 
+    public function getStoragePriority(): SuggestionPriority
+    {
+        $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'cpu-intensive', 'graphics']);
+        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive', 'graphics']);
+
+        if ($shouldReturnHighestPriority) {
+            return SuggestionPriority::highest();
+        }
+
+        if ($shouldReturnMidPriority) {
+            return SuggestionPriority::medium();
+        }
+
+        return SuggestionPriority::lowest();
+    }
+
     public function getCPUPriority(): SuggestionPriority
     {
         $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'cpu-intensive']);

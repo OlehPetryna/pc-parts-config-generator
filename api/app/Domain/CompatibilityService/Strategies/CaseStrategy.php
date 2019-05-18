@@ -25,11 +25,11 @@ class CaseStrategy extends AbstractStrategy
         if ($motherboard) {
             $formFactor = $motherboard->getAttribute('specifications')['Form Factor']['value'];
 
-            $query->where('specifications.Motherboard Compatibility.value', 'regex', "/$formFactor/gi");
+            $query->where('specifications.Motherboard Form Factor.value', 'regex', "/($formFactor$)|(^$formFactor)|(, $formFactor,)/gi");
         }
 
         if ($videocard) {
-            $query->where('maxVideoCardLength', '>=', $videocard->getLength());
+//            $query->where('maxVideoCardLength', '>=', $videocard->getLength());
         }
     }
 }

@@ -8,22 +8,40 @@ use App\Domain\PcParts\PcPart;
 
 class Motherboard extends PcPart
 {
-    public function getAvailableMemoryTypes(): array
+    public function getAvailableMemoryTypes(): string
     {
-        $rawTypes = $this->getAttribute('specifications')['Memory Type']['value'];
-        $types = explode(' / ', $rawTypes);
-        $typePrefix = preg_filter('/-\d+$/', '', $types[0]);
-
-        $result = [array_shift($types)];
-        foreach ($types as $type) {
-            $result[] = $typePrefix . '-' . $type;
-        }
-
-        return $result;
+        return $this->getAttribute('specifications')['Memory Type']['value'];
     }
 
     public function getMaximumSupportedMemory(): int
     {
-        return (int)$this->getAttribute('specifications')['Maximum Supported Memory']['value'];
+        return (int)$this->getAttribute('specifications')['Max RAM']['value'];
+    }
+
+    public function getAvailableStorageTypes(): array
+    {
+        $types = [];
+
+        foreach (['M.2', 'SATA 6 GB/s'] as $type) {
+            if ($this->getSlotsAmount($type)) {
+                $types[] = $type;
+            }
+        }
+
+        return $types;
+    }
+
+    public function getSlotsAmount(string $slotName): int
+    {
+        if ($slotName === 'M.2' || $slotName === 'M_2') {
+            return (int)$this->getAttribute('specifications')['M_2 Ports']['value'];
+        }
+
+        if (strtolower($slotName)=== 'sata 6gb/s' || strtolower($slotName) === 'sata 6 gb/s') {
+            return (int)$this->getAttribute('specifications')['SATA 6Gb/s Ports']['value'];
+        }
+
+
+        return 0;
     }
 }

@@ -9,10 +9,12 @@ use App\Domain\CompatibilityService\Strategies\MemoryStrategy;
 use App\Domain\CompatibilityService\Strategies\NullStrategy;
 use App\Domain\CompatibilityService\Strategies\PowerSupplyStrategy;
 use App\Domain\CompatibilityService\Strategies\SocketStrategy;
+use App\Domain\CompatibilityService\Strategies\StorageStrategy;
 use App\Domain\PcParts\Entities\CPU;
 use App\Domain\PcParts\Entities\PcCase;
 use App\Domain\PcParts\Entities\PowerSupply;
 use App\Domain\PcParts\Entities\RAM;
+use App\Domain\PcParts\Entities\Storage;
 use App\Domain\PcParts\Entities\VideoCard;
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
@@ -31,6 +33,10 @@ class CompatibilityContext
 
         if ($findingCompatibilityForPart instanceof RAM) {
             return new MemoryStrategy($findingCompatibilityForPart, $wholeCollection);
+        }
+
+        if ($findingCompatibilityForPart instanceof Storage) {
+            return new StorageStrategy($findingCompatibilityForPart, $wholeCollection);
         }
 
         if ($findingCompatibilityForPart instanceof PowerSupply) {

@@ -13,7 +13,7 @@ use Jenssegers\Mongodb\Eloquent\Builder;
 /**
  * @property RAM $findingCompatibilityForPart
  */
-class MemoryStrategy extends AbstractStrategy
+class StorageStrategy extends AbstractStrategy
 {
     public function addAcceptanceCriteria(Builder $query): void
     {
@@ -22,18 +22,14 @@ class MemoryStrategy extends AbstractStrategy
             return $part instanceof Motherboard;
         });
 
-        /**@var CPU $cpu */
-        $cpu = $this->compatibilityContextCollection->first(function (PcPart $part) {
-            return $part instanceof CPU;
-        });
 
         if ($motherboard) {
-            $query->where('specifications.Speed.value', 'like', "%{$motherboard->getAvailableMemoryTypes()}%");
-            $query->where('memorySize', '<=', $motherboard->getMaximumSupportedMemory());
+            $query->whereNested(function ($query) use ($motherboard) {
+                foreach ($motherboard->getAvailableStorageTypes() as $type) {
+                    $query->orWhere('specifications.Interface.value', 'like', "%$type%");
+                }
+            });
         }
 
-        if ($cpu && ($cpuMaxSupportedMemory = $cpu->getMaximumSupportedMemory())) {
-            $query->where('memorySize', '<=', $cpuMaxSupportedMemory);
-        }
     }
 }

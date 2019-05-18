@@ -42,6 +42,11 @@ class State
         return $cookie->addToResponse($response);
     }
 
+    public function clear(ResponseInterface $response): ResponseInterface
+    {
+        return SetCookie::thatDeletesCookie(self::$cookieName)->addToResponse($response);
+    }
+
     public function rewindOneStep(): void
     {
         $removePartClass = $this->stage->buildDummyPart()->getClass();

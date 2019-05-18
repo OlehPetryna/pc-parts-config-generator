@@ -6,6 +6,7 @@ namespace App\Domain\SuggestService;
 use App\Domain\PcParts\Entities\CPU;
 use App\Domain\PcParts\Entities\Motherboard;
 use App\Domain\PcParts\Entities\RAM;
+use App\Domain\PcParts\Entities\Storage;
 use App\Domain\PcParts\Entities\VideoCard;
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
@@ -13,6 +14,8 @@ use App\Domain\SuggestService\Strategies\CPUSuggestionStrategy;
 use App\Domain\SuggestService\Strategies\GraphicsSuggestionStrategy;
 use App\Domain\SuggestService\Strategies\MemorySuggestionStrategy;
 use App\Domain\SuggestService\Strategies\MotherboardSuggestionStrategy;
+use App\Domain\SuggestService\Strategies\RandomStrategy;
+use App\Domain\SuggestService\Strategies\StorageSuggestionStrategy;
 
 class SuggestionContext
 {
@@ -41,5 +44,11 @@ class SuggestionContext
         if ($part instanceof RAM) {
             return new MemorySuggestionStrategy($alreadySuggestedParts, $this->categories->getMemoryPriority());
         }
+
+        if ($part instanceof Storage) {
+            return new StorageSuggestionStrategy($alreadySuggestedParts, $this->categories->getStoragePriority());
+        }
+
+        return new RandomStrategy($alreadySuggestedParts, SuggestionPriority::medium());
     }
 }

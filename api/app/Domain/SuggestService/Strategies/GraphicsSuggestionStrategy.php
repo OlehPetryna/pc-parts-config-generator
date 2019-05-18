@@ -18,7 +18,7 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
     ];
 
     private $chipsets = [
-        'professional' => ['Quadro'],
+        'professional' => ['Quadro', 'Radeon Pro'],
         'other' => ['GeForce', 'Radeon']
     ];
 
@@ -39,8 +39,8 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
     public function filterSelectedCompatibleParts(PartsCollection $collection): PcPart
     {
         $collection = $collection->sort(function (PcPart $partA, PcPart $partB) {
-            $aMemory = (int)$partA->getAttribute('specifications')['Memory Size']['value'];
-            $bMemory = (int)$partB->getAttribute('specifications')['Memory Size']['value'];
+            $aMemory = (int)$partA->getAttribute('specifications')['Memory']['value'];
+            $bMemory = (int)$partB->getAttribute('specifications')['Memory']['value'];
 
             $aFrequency = (float)$partA->getAttribute('specifications')['Core Clock']['value'];
             $bFrequency = (float)$partB->getAttribute('specifications')['Core Clock']['value'];

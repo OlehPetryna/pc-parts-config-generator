@@ -26,6 +26,6 @@ class MotherboardSuggestionStrategy extends SuggestionStrategy
 
         $socket = $vendorRandomize >= 50 ? $this->intelSockets[(string)$this->suggestionPriority] : $this->amdSockets[(string)$this->suggestionPriority];
 
-        $query->whereIn('specifications.CPU Socket.value', $socket);
+        $query->whereIn('specifications.Socket / CPU.value', $socket);
     }
 }

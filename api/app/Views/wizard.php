@@ -63,7 +63,7 @@
                     searchable: false,
                     orderable: false,
                     render: function (imgSrc, something, dataEntry) {
-                        return `<img class="parts-table-image" src="${imgSrc}" data-lg-img="${dataEntry.largeImg}"/>`
+                        return `<img class="parts-table-image" src="${dataEntry.smallImg || imgSrc}" data-lg-img="${dataEntry.largeImg}"/>`
                     }
                 }, {
                     data: 'title',

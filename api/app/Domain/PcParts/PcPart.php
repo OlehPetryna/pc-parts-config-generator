@@ -54,9 +54,21 @@ abstract class PcPart extends Model
     {
         $img = $this->img ?? '';
 
-        $imgHasDimension = preg_match('/\.\d+p\.(?>jpg|png)$/', $img);
+        $imgHasDimension = preg_match('/\.1600\.(?>jpg|png)$/', $img);
         if ($imgHasDimension) {
-            return str_replace('256p', '1600', $img);
+            return $img;
+        }
+
+        return null;
+    }
+
+    public function getSmallImg(): ?string
+    {
+        $img = $this->img ?? '';
+
+        $imgHasDimension = preg_match('/\.1600\.(?>jpg|png)$/', $img);
+        if ($imgHasDimension) {
+            return str_replace('1600', '256p', $img);
         }
 
         return null;
@@ -67,6 +79,7 @@ abstract class PcPart extends Model
         $this->addTranslationToSpecs();
         return array_replace(parent::jsonSerialize(), [
             'largeImg' => $this->getLargeImg(),
+            'smallImg' => $this->getSmallImg(),
         ]);
     }
 }

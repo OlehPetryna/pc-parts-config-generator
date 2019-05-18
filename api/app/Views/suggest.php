@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var bool $showErrorMessage
+ */
 $questions = [
     'Question[gaming]' => 'Компютерні ігри',
     'Question[multimedia]' => 'Перегляд фільмів, серіалів; прослуховування музики',
@@ -13,12 +16,20 @@ $maxAvailablePriority = count($questions);
     <span class="sr-only">Loading...</span>
 </div>
 <div id="suggestPage" class="whole-screen-min-height py-2 px-3">
-    <h2>
-        Нам необхідно знати, як само Ви збираєтесь використовувати Ваш ПК
-    </h2>
-    <h4 class="text-secondary">
-        Розставте пріоритети можливих сценаріїв використання
-    </h4>
+    <?php if ($showErrorMessage): ?>
+        <div class="alert alert-danger">
+            <h2>Упс .... щось пійшло не так .... Ми не змогли Вам допомогти. </h2>
+            <h5 class="text-secondary">Будь ласка, спробуйте ще раз, або змініть розставлені пріорітети\бюджет</h5>
+        </div>
+    <?php else: ?>
+        <h2>
+            Нам необхідно знати, як само Ви збираєтесь використовувати Ваш ПК
+        </h2>
+        <h4 class="text-secondary">
+            Розставте пріоритети можливих сценаріїв використання
+        </h4>
+    <?php endif; ?>
+
     <form action="/complete-suggestion" method="post" id="suggestForm">
         <div id="questions-wrapper" class="w-75 mx-auto mt-4">
             <?php foreach ($questions as $name => $text): ?>
@@ -57,7 +68,7 @@ $maxAvailablePriority = count($questions);
 </div>
 
 <script>
-    window.onload = function() {
+    window.onload = function () {
         $('#suggestForm').on('submit', function (e) {
             const $page = $('#suggestPage');
             const $loader = $('#suggestLoader');
@@ -68,11 +79,10 @@ $maxAvailablePriority = count($questions);
             $.ajax({
                 url: $form.attr('action'),
                 data: new FormData($form[0]),
+                method: 'post',
                 processData: false,
-            })
-                .success((data, status, request) => {
-                    console.log(arguments);
-                });
+            }).success((data, status, request) => {
+            });
 
             return false;
         })
