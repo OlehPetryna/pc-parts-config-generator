@@ -64,6 +64,8 @@ class CPUSuggestionStrategy extends SuggestionStrategy
             return $collection->last();
         }
 
-        return $collection->get((int)($collection->count() / 2));
+
+        $keys = $collection->keys();
+        return $collection->get($keys->get((int)$collection->count() / 2));
     }
 }

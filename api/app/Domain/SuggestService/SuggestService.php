@@ -19,7 +19,6 @@ class SuggestService
     public function completeSuggestion(SuggestionCategories $categories): void
     {
         $suggestionContext = new SuggestionContext($categories);
-        $tries = 3;
         while (!$this->wizard->endReached()) {
             $suggestStagePart = $this->wizard->buildStagePart();
             $suggestQuery = $this->wizard->findCompatiblePartsQuery();

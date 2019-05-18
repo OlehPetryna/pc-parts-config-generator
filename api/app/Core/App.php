@@ -23,11 +23,16 @@ final class App
         $this->loadRoutes();
     }
 
+    private function loadRoutes(): void
+    {
+        require_once('Config/routes.php');
+        load($this->getRouter()->getMap(), $this->container);
+    }
+
     public function run()
     {
         $router = $this->getRouter();
         $request = $this->getRequest();
-        $response = $this->getResponse();
         $emitter = $this->getEmitter();
 
         $route = $router->getMatcher()->match($request);
@@ -47,20 +52,10 @@ final class App
         return $request;
     }
 
-    private function loadRoutes(): void
-    {
-        require_once('Config/routes.php');
-        load($this->getRouter()->getMap(), $this->container);
-    }
 
     private function getRequest(): ServerRequestInterface
     {
         return $this->container->get(ServerRequestInterface::class);
-    }
-
-    private function getResponse(): ResponseInterface
-    {
-        return $this->container->get(ResponseInterface::class);
     }
 
     private function getEmitter(): SapiEmitter
