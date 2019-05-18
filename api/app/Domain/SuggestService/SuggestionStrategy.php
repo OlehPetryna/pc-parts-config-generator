@@ -30,5 +30,34 @@ abstract class SuggestionStrategy
         return $collection->random();
     }
 
+    protected function pickRandomElementFromMiddle(PartsCollection $collection): PcPart
+    {
+        $keys = $collection->keys();
+
+        $chunkSize = ceil($keys->count() / 4);
+        $offset = floor($keys->count() - $chunkSize / 2);
+
+        return $collection->get($keys->slice($offset, $chunkSize)->random());
+    }
+    
+    protected function pickRandomElementFromTop(PartsCollection $collection): PcPart
+    {
+        $keys = $collection->keys();
+
+        $chunkSize = ceil($keys->count() / 4);
+
+        return $collection->get($keys->slice(0, $chunkSize)->random());
+    }
+    
+    protected function pickRandomElementFromBottom(PartsCollection $collection): PcPart
+    {
+        $keys = $collection->keys();
+
+        $chunkSize = ceil($keys->count() / 4);
+        $offset = floor($keys->count() - $chunkSize);
+
+        return $collection->get($keys->slice($offset)->random());
+    }
+
     abstract public function addSuggestionCriteria(Builder $query): void;
 }

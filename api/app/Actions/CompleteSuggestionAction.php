@@ -32,7 +32,7 @@ class CompleteSuggestionAction extends Action
             $response = $this->wizard->keepState($response);
 
             $redirectUrl = '/summary';
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $response = $this->wizard->removeState($response);
             $redirectUrl = '/suggest?error=error';
         } finally {

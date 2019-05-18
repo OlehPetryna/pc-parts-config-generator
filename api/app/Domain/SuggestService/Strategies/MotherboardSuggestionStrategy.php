@@ -11,7 +11,7 @@ class MotherboardSuggestionStrategy extends SuggestionStrategy
     private $amdSockets = [
         'top' => ['AM4'],
         'mid' => ['AM3', 'AM3+'],
-        'low' => ['AM2', 'AM2+']
+        'low' => ['AM2', 'AM2+', 'FM2', 'FM2+', 'FM1']
     ];
 
     private $intelSockets = [

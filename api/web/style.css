@@ -120,6 +120,7 @@ th {
 
 #menu {
     position: absolute;
+    z-index: 100500;
     top: 10px;
     right: 10px;
 }

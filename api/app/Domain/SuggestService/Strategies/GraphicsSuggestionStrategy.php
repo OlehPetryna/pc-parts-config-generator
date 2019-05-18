@@ -14,7 +14,7 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
     private $memoryType = [
         'top' => ['GDDR5', 'GDDR6'],
         'mid' => ['GDDR5'],
-        'low' => ['GDDR3'],
+        'low' => ['GDDR5', 'GDDR3'],
     ];
 
     private $chipsets = [
@@ -85,14 +85,13 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
         });
 
         if ($this->suggestionPriority->isHighest()) {
-            return $collection->first();
+            return $this->pickRandomElementFromTop($collection);
         }
 
         if ($this->suggestionPriority->isLowest()) {
-            return $collection->last();
+            return $this->pickRandomElementFromBottom($collection);
         }
 
-        $keys = $collection->keys();
-        return $collection->get($keys->get((int)$collection->count() / 2));
+        return $this->pickRandomElementFromMiddle($collection);
     }
 }

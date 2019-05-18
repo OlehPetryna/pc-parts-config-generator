@@ -57,15 +57,13 @@ class CPUSuggestionStrategy extends SuggestionStrategy
         });
 
         if ($this->suggestionPriority->isHighest()) {
-            return $collection->first();
+            return $this->pickRandomElementFromTop($collection);
         }
 
         if ($this->suggestionPriority->isLowest()) {
-            return $collection->last();
+            return $this->pickRandomElementFromBottom($collection);
         }
 
-
-        $keys = $collection->keys();
-        return $collection->get($keys->get((int)$collection->count() / 2));
+        return $this->pickRandomElementFromMiddle($collection);
     }
 }
