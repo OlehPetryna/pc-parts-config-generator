@@ -29,7 +29,7 @@ class CaseStrategy extends AbstractStrategy
         }
 
         if ($videocard) {
-//            $query->where('maxVideoCardLength', '>=', $videocard->getLength());
+            $query->where('maxVideoCardLength', '>=', $videocard->getLength());
         }
     }
 }
