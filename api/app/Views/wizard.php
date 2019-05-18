@@ -15,6 +15,7 @@
             </div>
             <p class="px-3 mb-3"><?= "$currentStep / $totalStepsAmount" ?></p>
             <button type="button" class="ml-3 btn btn-secondary btn-sm btn-rewind-step">Назад</button>
+            <a href="/wizard?refresh=refresh" class="ml-3 btn btn-secondary btn-sm">Почати спочатку</a>
         </div>
         <div class="container">
             <h3>Будь ласка, оберіть <?= $stepName ?></h3>

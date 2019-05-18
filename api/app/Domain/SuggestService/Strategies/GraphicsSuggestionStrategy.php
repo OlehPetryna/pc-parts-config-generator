@@ -18,7 +18,7 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
     ];
 
     private $chipsets = [
-        'professional' => ['Quadro', 'Radeon Pro'],
+        'professional' => ['Quadro', 'radeon pro duo polaris'],
         'other' => ['GeForce', 'Radeon']
     ];
 
@@ -29,10 +29,16 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
         $query
             ->whereIn('specifications.Memory Type.value', $memoryType)
             ->whereNested(function ($query) {
-                $chipsets = $this->chipsets[$this->suggestionPriority->professionalPurpose() ? 'professional' : 'other'];
-                foreach ($chipsets as $chipset) {
+                $targetChipsets = $this->chipsets[$this->suggestionPriority->professionalPurpose() ? 'professional' : 'other'];
+                foreach ($targetChipsets as $chipset) {
                     $query->orWhere('specifications.Chipset.value', 'like', "%$chipset%");
                 }
+
+                $otherChipsets = $this->chipsets[!$this->suggestionPriority->professionalPurpose() ? 'professional' : 'other'];
+                foreach ($otherChipsets as $chipset) {
+                    $query->where('specifications.Chipset.value', 'not regexp', "/^$chipset$/gi");
+                }
+
             });
     }
 

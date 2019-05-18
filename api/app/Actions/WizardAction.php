@@ -24,6 +24,10 @@ class WizardAction extends HtmlAction
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        if ($request->getAttribute('refresh')) {
+            return $this->wizard->removeState($response)->withHeader('Location', '/wizard');
+        }
+
         if ($this->wizard->endReached()) {
             return $response->withHeader('Location', '/summary');
         }
@@ -38,7 +42,7 @@ class WizardAction extends HtmlAction
             return $response->withHeader('Location', '/summary');
         }
 
-        $currentStepName = $this->wizard->getCurrentStepName();
+        $currentStepName = $this->translateStepName($this->wizard->getCurrentStepName());
         $totalStepsAmount = $this->wizard->getStepsCount();
         $currentStep = $this->wizard->getCurrentStepIdx();
 
@@ -47,5 +51,20 @@ class WizardAction extends HtmlAction
             'totalStepsAmount' => $totalStepsAmount,
             'stepName' => $currentStepName
         ]);
+    }
+
+    private function translateStepName(string $name): string
+    {
+        $translations = [
+            "Motherboard" => 'Материнську плату',
+            "CPU" => 'Процесор',
+            "VideoCard" => 'Відеокарту',
+            "RAM" => 'Оперативну пам\'ять',
+            "Storage" => 'Сховище даних',
+            "PowerSupply" => 'Блок живлення',
+            "PcCase" => 'Корпус',
+        ];
+
+        return $translations[$name];
     }
 }

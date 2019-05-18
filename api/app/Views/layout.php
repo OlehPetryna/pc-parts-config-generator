@@ -20,6 +20,20 @@
     <link rel="stylesheet" href="/web/style.css">
 </head>
 <body class="content">
+<div id="menu">
+    <!-- Example single danger button -->
+    <div class="btn-group dropleft">
+        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Навігація
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="/">Головна</a>
+            <a class="dropdown-item" href="/suggest">Автоматичний підбір</a>
+            <a class="dropdown-item" href="/wizard">Конструктор</a>
+            <a class="dropdown-item" href="/wizard">Конструктор (з початку)</a>
+        </div>
+    </div>
+</div>
 <section class="container-fluid px-0 whole-screen-min-height" >
     <?= $content ?>
 </section>

@@ -76,15 +76,16 @@ $maxAvailablePriority = count($questions);
 
             $page.fadeOut('fast', () => $loader.show());
 
-            $.ajax({
-                url: $form.attr('action'),
-                data: new FormData($form[0]),
-                method: 'post',
-                processData: false,
-            }).success((data, status, request) => {
-            });
+            // $.ajax({
+            //     url: $form.attr('action'),
+            //     data: new FormData($form[0]),
+            //     method: 'post',
+            //     processData: false,
+            //     contentType: false,
+            //     success: ((data, status, request) => {})
+            // });
 
-            return false;
+            // return false;
         })
     };
 </script>
