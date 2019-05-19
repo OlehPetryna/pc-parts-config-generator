@@ -69,5 +69,7 @@ fabric.properties
 api/composer.lock
 api/app/Parser/*.log
 api/app/Parser/*-script.php
+api/app/Parser/*script.php
+api/app/Parser/*.json
 api/vendor
 .env
