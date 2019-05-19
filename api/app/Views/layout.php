@@ -30,7 +30,7 @@
             <a class="dropdown-item" href="/">Головна</a>
             <a class="dropdown-item" href="/suggest">Автоматичний підбір</a>
             <a class="dropdown-item" href="/wizard">Конструктор</a>
-            <a class="dropdown-item" href="/wizard">Конструктор (з початку)</a>
+            <a class="dropdown-item" href="/wizard?refresh=refresh">Конструктор (з початку)</a>
         </div>
     </div>
 </div>

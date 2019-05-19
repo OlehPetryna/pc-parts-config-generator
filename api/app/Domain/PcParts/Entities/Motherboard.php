@@ -22,7 +22,7 @@ class Motherboard extends PcPart
     {
         $types = [];
 
-        foreach (['M.2', 'SATA 6 GB/s'] as $type) {
+        foreach (['M.2', 'SATA 6 GB/s', 'SATA 3 GB/s'] as $type) {
             if ($this->getSlotsAmount($type)) {
                 $types[] = $type;
             }
@@ -39,6 +39,10 @@ class Motherboard extends PcPart
 
         if (strtolower($slotName)=== 'sata 6gb/s' || strtolower($slotName) === 'sata 6 gb/s') {
             return (int)$this->getAttribute('specifications')['SATA 6Gb/s Ports']['value'];
+        }
+
+        if (strtolower($slotName)=== 'sata 3gb/s' || strtolower($slotName) === 'sata 3 gb/s') {
+            return (int)$this->getAttribute('specifications')['SATA 3Gb/s Ports']['value'];
         }
 
 

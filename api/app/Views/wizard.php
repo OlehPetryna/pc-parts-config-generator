@@ -140,10 +140,14 @@
         });
 
         $(document).on('click', '.choose-part-btn', function () {
-            const partId = $(this).data('id') !== undefined ? $(this).data('id') : $(this).closest('[data-id]').data('id');
+            const partId = $(this).data('id') !== undefined
+                ? $(this).data('id')
+                : $(this).closest('.part-details-modal').find('[data-id]').data('id');
 
             const stage = $('#currentStage');
             stage.val(stage.val() * 1 + 1);
+
+            console.log('setting od', partId);
 
             $('#pickedPartId').val(partId);
             $('form').submit();
