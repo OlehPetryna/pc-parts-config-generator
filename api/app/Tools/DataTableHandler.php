@@ -60,7 +60,7 @@ class DataTableHandler
 
             $column = $this->columns[$columnIdx];
             if (filter_var($column['orderable'], FILTER_VALIDATE_BOOLEAN) === true) {
-                $query->orderBy($column['name'], $dir);
+                $query->orderBy($column['data'], $dir);
             }
         }
     }

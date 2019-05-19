@@ -71,7 +71,10 @@
                     name: 'title',
                 }, {
                     name: 'price',
-                    data: 'price'
+                    data: 'priceNumber',
+                    render: function (priceNumber, something, dataEntry) {
+                        return dataEntry.price;
+                    }
                 },
             ],
             serverSide: true,
