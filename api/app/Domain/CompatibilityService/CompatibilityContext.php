@@ -18,9 +18,20 @@ use App\Domain\PcParts\Entities\Storage;
 use App\Domain\PcParts\Entities\VideoCard;
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
+use HansOtt\PSR7Cookies\RequestCookies;
+use HansOtt\PSR7Cookies\ResponseCookies;
 
 class CompatibilityContext
 {
+    private $requestCookies;
+
+    const SHOW_WITHOUT_PRICE_COOKE = 'showWithoutPrice';
+
+    public function __construct(RequestCookies $cookies)
+    {
+        $this->requestCookies = $cookies;
+    }
+
     public function pickCompatibilityStrategy(
         PcPart $findingCompatibilityForPart,
         PartsCollection $wholeCollection
@@ -49,5 +60,9 @@ class CompatibilityContext
 
         return new NullStrategy($findingCompatibilityForPart, $wholeCollection);
     }
-    //null object, strategies could be created from both should & findingd parts
+
+    public function arePartsWithoutPricesDesired(): bool
+    {
+        return $this->requestCookies->has(self::SHOW_WITHOUT_PRICE_COOKE) && $this->requestCookies->get(self::SHOW_WITHOUT_PRICE_COOKE)->getValue();
+    }
 }

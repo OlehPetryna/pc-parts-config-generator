@@ -24,7 +24,9 @@ class CompatibilityService
         $strategy = $this->context->pickCompatibilityStrategy($partOfNeededType, $partsCollection);
         $strategy->addAcceptanceCriteria($query);
 
-        $query->where('price', '!=', '');
+        if (!$this->findingPartsWithoutPrices()) {
+            $query->where('price', '!=', '');
+        }
 
         return $query;
     }
@@ -32,5 +34,10 @@ class CompatibilityService
     public function findCompatiblePartsForCollection(PartsCollection $partsCollection, PcPart $partOfNeededType): PartsCollection
     {
         return new PartsCollection($this->findCompatiblePartsQueryForCollection($partsCollection, $partOfNeededType)->get());
+    }
+
+    public function findingPartsWithoutPrices(): bool
+    {
+        return $this->context->arePartsWithoutPricesDesired();
     }
 }

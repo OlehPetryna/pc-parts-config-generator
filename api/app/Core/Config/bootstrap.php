@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Domain\CompatibilityService\CompatibilityContext;
 use App\Domain\CompatibilityService\CompatibilityService;
 use App\Domain\PickerWizard\Stage;
 use App\Domain\PickerWizard\Wizard;
@@ -104,6 +105,10 @@ $containerBuilder->addDefinitions([
     'stageIdx' => function (ServerRequestInterface $request) {
         return $request->getAttribute('stage', 0);
     },
+
+    CompatibilityContext::class => factory(function (ServerRequestInterface $request) {
+        return new CompatibilityContext(RequestCookies::createFromRequest($request));
+    }),
 
     Stage::class => factory(function (int $nextStageIdx) {
         return new Stage($nextStageIdx);

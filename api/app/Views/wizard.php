@@ -3,19 +3,20 @@
  * @var int $currentStep
  * @var int $totalStepsAmount
  * @var string $stepName
+ * @var bool $showWithoutPrices
  * @var PartsCollection $pickedParts
  */
 
 use App\Domain\PcParts\PartsCollection; ?>
+
 <div class="whole-screen-min-height">
     <form action="" method="post">
         <input type="hidden" name="stage" id="currentStage" value="<?= $currentStep ?>">
         <input type="hidden" name="partId" id="pickedPartId">
         <div class="progress-wrapper">
             <div class="progress">
-                <div class="progress-bar bg-primary" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
+                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
             </div>
-            <p class="px-3 mb-0"><?= "$currentStep / $totalStepsAmount" ?></p>
         </div>
         <?php if ($pickedParts->isNotEmpty()): ?>
             <div id="pickedPartsInfo" class="d-none">
@@ -30,12 +31,20 @@ use App\Domain\PcParts\PartsCollection; ?>
             </div>
         <?php endif; ?>
         <div class="container position-relative">
-            <div class="position-absolute data-table-btns" style="right:30px;">
-                <button type="button" class="btn btn-secondary btn-sm btn-rewind-step mr-2 mb-1">Назад</button>
-                <button type="button" class="btn btn-secondary btn-sm btn-show-picked mr-2 mb-1">Обрані комплектуючі</button>
-                <a href="/wizard?refresh=refresh" class="btn btn-secondary btn-sm mb-1">Почати спочатку</a>
+                <div class="position-absolute data-table-btns" style="right:30px;">
+                    <?php if ($pickedParts->isNotEmpty()): ?>
+                        <button type="button" class="btn btn-secondary btn-sm btn-rewind-step mr-2 mb-1">Назад</button>
+                        <button type="button" class="btn btn-secondary btn-sm btn-show-picked mr-2 mb-1">Обрані
+                            комплектуючі
+                        </button>
+                        <a href="/wizard?refresh=refresh" class="btn btn-secondary btn-sm mb-1">Почати спочатку</a>
+                    <?php endif; ?>
+                </div>
+            <h3 class="text-left pl-3">Будь ласка, оберіть <?= $stepName ?></h3>
+            <div class="custom-control custom-switch ml-3">
+                <input name="showWithoutPrices" type="checkbox" class="custom-control-input" id="customSwitch1" <?= $showWithoutPrices ? 'checked' : '' ?> onchange="$(this).closest('form').submit()" value="1">
+                <label class="custom-control-label" for="customSwitch1">Показувати комлпектуючі без ціни</label>
             </div>
-            <h3>Будь ласка, оберіть <?= $stepName ?></h3>
             <div class="table-responsive px-3 py-2">
                 <table id="partsTable" class="table table-striped">
                     <thead>

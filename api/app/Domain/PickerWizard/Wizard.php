@@ -118,7 +118,12 @@ class Wizard
 
     public function endReached(): bool
     {
-        return$this->stage->allStagesPassed();
+        return $this->stage->allStagesPassed();
+    }
+
+    public function showPartsWithoutPrices(): bool
+    {
+        return $this->compatibilityService->findingPartsWithoutPrices();
     }
 
     private function refreshStage(int $newStageIdx = null): void

@@ -15,7 +15,7 @@ $maxAvailablePriority = count($questions);
 <div id="suggestLoader" class="spinner-grow text-primary" role="status">
     <span class="sr-only">Loading...</span>
 </div>
-<div id="suggestPage" class="whole-screen-min-height py-2 px-3">
+<div id="suggestPage" class="whole-screen-min-height">
     <div class="container">
         <?php if ($showErrorMessage): ?>
             <div class="alert alert-danger">
