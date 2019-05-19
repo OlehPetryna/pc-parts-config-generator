@@ -3,8 +3,10 @@
  * @var int $currentStep
  * @var int $totalStepsAmount
  * @var string $stepName
+ * @var PartsCollection $pickedParts
  */
-?>
+
+use App\Domain\PcParts\PartsCollection; ?>
 <div class="whole-screen-min-height">
     <form action="" method="post">
         <input type="hidden" name="stage" id="currentStage" value="<?= $currentStep ?>">
@@ -15,10 +17,23 @@
             </div>
             <p class="px-3 mb-0"><?= "$currentStep / $totalStepsAmount" ?></p>
         </div>
+        <?php if ($pickedParts->isNotEmpty()): ?>
+            <div id="pickedPartsInfo" class="d-none">
+                <ul class="list-group text-left">
+                    <?php foreach ($pickedParts as $part): ?>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <?= $part->title ?>
+                            <span class="badge badge-primary badge-pill"><?= $part->price ?></span>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
         <div class="container position-relative">
             <div class="position-absolute data-table-btns" style="right:30px;">
-                <button type="button" class="btn btn-secondary btn-sm btn-rewind-step mr-2">Назад</button>
-                <a href="/wizard?refresh=refresh" class="btn btn-secondary btn-sm">Почати спочатку</a>
+                <button type="button" class="btn btn-secondary btn-sm btn-rewind-step mr-2 mb-1">Назад</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-show-picked mr-2 mb-1">Обрані комплектуючі</button>
+                <a href="/wizard?refresh=refresh" class="btn btn-secondary btn-sm mb-1">Почати спочатку</a>
             </div>
             <h3>Будь ласка, оберіть <?= $stepName ?></h3>
             <div class="table-responsive px-3 py-2">
@@ -157,6 +172,14 @@
 
         $(document).on('click', '.btn-rewind-step', function () {
             window.location = '/rewind-wizard-step';
+        });
+
+        $(document).on('click', '.btn-show-picked', function () {
+            swal({
+                className: 'picked-part-details-modal',
+                title: 'Обрані комплектуючі',
+                content: $('#pickedPartsInfo').clone().removeClass('d-none')[0],
+            });
         });
 
         dataTable.on('draw.dt', function () {

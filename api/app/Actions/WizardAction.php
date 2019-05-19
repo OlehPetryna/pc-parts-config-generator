@@ -45,11 +45,13 @@ class WizardAction extends HtmlAction
         $currentStepName = $this->translateStepName($this->wizard->getCurrentStepName());
         $totalStepsAmount = $this->wizard->getStepsCount();
         $currentStep = $this->wizard->getCurrentStepIdx();
+        $pickedParts = $this->wizard->getStateParts();
 
         return $this->renderer()->render($response, '/wizard.php', [
             'currentStep' => $currentStep,
             'totalStepsAmount' => $totalStepsAmount,
-            'stepName' => $currentStepName
+            'stepName' => $currentStepName,
+            'pickedParts' => $pickedParts
         ]);
     }
 
