@@ -49,7 +49,8 @@ class DataTableHandler
         $this->addSort($query);
         $this->addSearchFilter($query, $modelSpecs);
 
-        return $query->paginate($this->pageSize, ['*'], 'page', floor($this->startAt / $this->pageSize));
+        $page = floor($this->startAt / $this->pageSize) + 1;
+        return $query->paginate($this->pageSize, ['*'], 'page', $page);
     }
 
     private function addSort(Builder $query): void

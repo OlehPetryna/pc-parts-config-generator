@@ -2,6 +2,14 @@ a, .btn, a:hover, .btn:hover {
     text-decoration: none;
 }
 
+body {
+    background-color: #ffffff;
+    background-image: url("https://www.transparenttextures.com/patterns/shattered.png");
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
 .whole-screen-min-height {
     min-height: 100vh;
 }
@@ -63,10 +71,16 @@ th {
     .part-details-modal {
         width: 100vw;
     }
+
+    .data-table-btns {
+        position: static!important;
+    }
 }
 
 #questions-wrapper .priorities {
     display: flex;
+    flex-wrap: wrap;
+    padding: 0;
     justify-content: flex-end;
     align-items: center;
 }
@@ -123,4 +137,11 @@ th {
     z-index: 100500;
     top: 10px;
     right: 10px;
+}
+
+section.whole-screen-min-height .container {
+    background: #fff;
+    padding:15px;
+    border-radius: 10px;
+    box-shadow: 1px 2px 8px rgba(0,0,0,.25);
 }

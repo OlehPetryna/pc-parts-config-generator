@@ -7,7 +7,7 @@ use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
 
 ?>
-<div id="summaryWrapper" class="px-3 py-1">
+<div id="summaryWrapper" class="mt-2 px-3 py-1 container">
     <h2 class="mb-3">Перелік обраних деталей</h2>
     <div class="table-responsive">
         <table class="table table-bordered">

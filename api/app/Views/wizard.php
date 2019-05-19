@@ -9,15 +9,17 @@
     <form action="" method="post">
         <input type="hidden" name="stage" id="currentStage" value="<?= $currentStep ?>">
         <input type="hidden" name="partId" id="pickedPartId">
-        <div class="progress-wrapper mb-4">
+        <div class="progress-wrapper">
             <div class="progress">
                 <div class="progress-bar bg-primary" style="width: <?= $currentStep / $totalStepsAmount * 100 ?>%"></div>
             </div>
-            <p class="px-3 mb-3"><?= "$currentStep / $totalStepsAmount" ?></p>
-            <button type="button" class="ml-3 btn btn-secondary btn-sm btn-rewind-step">Назад</button>
-            <a href="/wizard?refresh=refresh" class="ml-3 btn btn-secondary btn-sm">Почати спочатку</a>
+            <p class="px-3 mb-0"><?= "$currentStep / $totalStepsAmount" ?></p>
         </div>
-        <div class="container">
+        <div class="container position-relative">
+            <div class="position-absolute data-table-btns" style="right:30px;">
+                <button type="button" class="btn btn-secondary btn-sm btn-rewind-step mr-2">Назад</button>
+                <a href="/wizard?refresh=refresh" class="btn btn-secondary btn-sm">Почати спочатку</a>
+            </div>
             <h3>Будь ласка, оберіть <?= $stepName ?></h3>
             <div class="table-responsive px-3 py-2">
                 <table id="partsTable" class="table table-striped">
@@ -53,8 +55,8 @@
                         const idx = settings.row;
                         return `
                             <div class="d-flex flex-wrap">
-                                <button type="button" data-id="${currentEntry._id}" class="w-100 mb-2 btn btn-outline-success choose-part-btn">Обрати</button>
-                                <button type="button" data-idx="${idx}" class="w-100 part-details-btn btn btn-outline-info">Деталі</button>
+                                <button type="button" data-id="${currentEntry._id}" class="w-100 mb-2 btn btn-success choose-part-btn">Обрати</button>
+                                <button type="button" data-idx="${idx}" class="w-100 part-details-btn btn btn-info">Деталі</button>
                             </div>
                             `
                     }
