@@ -14,7 +14,7 @@ class StorageSuggestionStrategy extends SuggestionStrategy
     private $type = [
         'top' => 'M.2',
         'mid' => 'SATA 6 Gb/s',
-        'low' => 'SATA 6 Gb/s',
+        'low' => 'SATA 3 Gb/s',
     ];
 
     public function addSuggestionCriteria(Builder $query): void
