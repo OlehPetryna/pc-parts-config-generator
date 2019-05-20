@@ -12,9 +12,9 @@ use Jenssegers\Mongodb\Eloquent\Builder;
 class MemorySuggestionStrategy extends SuggestionStrategy
 {
     private $speed = [
-        'top' => 'DDR4',
-        'mid' => 'DDR3',
-        'low' => 'DDR3',
+        'top' => ['DDR4'],
+        'mid' => ['DDR3'],
+        'low' => ['DDR3', 'DDR2'],
     ];
 
     private $memoryLimit = [
@@ -25,9 +25,14 @@ class MemorySuggestionStrategy extends SuggestionStrategy
 
     public function addSuggestionCriteria(Builder $query): void
     {
-        $speed = $this->speed[(string)$this->suggestionPriority];
+        $speeds = $this->speed[(string)$this->suggestionPriority];
 
-        $query->where('specifications.Speed.value', 'like', "%$speed%");
+        $query->whereNested(function ($query) use ($speeds) {
+            foreach ($speeds as $speed) {
+                $query->orWhere('specifications.Speed.value', 'like', "%$speed%");
+            }
+        });
+
     }
 
     public function filterSelectedCompatibleParts(PartsCollection $collection): PcPart

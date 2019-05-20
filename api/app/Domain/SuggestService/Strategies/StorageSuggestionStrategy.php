@@ -12,17 +12,21 @@ class StorageSuggestionStrategy extends SuggestionStrategy
 {
 
     private $type = [
-        'top' => 'M.2',
-        'mid' => 'SATA 6 Gb/s',
-        'low' => 'SATA 3 Gb/s',
+        'top' => ['M.2'],
+        'mid' => ['SATA 6 Gb/s'],
+        'low' => ['SATA 6 Gb/s', 'SATA 3 Gb/s'],
     ];
 
     public function addSuggestionCriteria(Builder $query): void
     {
-        $type = $this->type[(string)$this->suggestionPriority];
+        $types = $this->type[(string)$this->suggestionPriority];
 
-        $query
-            ->where('specifications.Interface.value', 'like', "%$type%")
-            ->where('specifications.Type.value', $this->suggestionPriority->isLowest() ? '!=' : '=', 'SSD');
+        $query->whereNested(function ($query) use ($types) {
+            foreach ($types as $type) {
+                $query->orWhere('specifications.Interface.value', 'like', "%$type%");
+            }
+        });
+
+        $query->where('specifications.Type.value', $this->suggestionPriority->isLowest() ? '!=' : '=', 'SSD');
     }
 }
