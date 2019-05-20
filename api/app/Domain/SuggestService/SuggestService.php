@@ -5,15 +5,19 @@ namespace App\Domain\SuggestService;
 
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PickerWizard\Wizard;
+use Psr\Log\LoggerInterface;
 
 class SuggestService
 {
     /**@var Wizard $wizard*/
     private $wizard;
 
-    public function __construct(Wizard $wizard)
+    private $logger;
+
+    public function __construct(Wizard $wizard, LoggerInterface $logger)
     {
         $this->wizard = $wizard;
+        $this->logger = $logger;
     }
 
     public function completeSuggestion(SuggestionCategories $categories): void
@@ -28,6 +32,13 @@ class SuggestService
 
             /**@var PartsCollection $suggestionParts*/
             $suggestionParts = $suggestQuery->get();
+
+            if ($suggestionParts->isEmpty()) {
+                $this->logger->critical(
+                    '[SuggestService] Received empty $suggestionParts.',
+                    ['query' => json_encode($suggestQuery->wheres)]
+                );
+            }
 
             $suggestedPart = $suggestionStrategy->filterSelectedCompatibleParts($suggestionParts);
             $this->wizard->addPart($suggestedPart);

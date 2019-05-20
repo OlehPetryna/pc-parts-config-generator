@@ -12,10 +12,12 @@ use function DI\factory;
 use Dotenv\Dotenv;
 use HansOtt\PSR7Cookies\RequestCookies;
 use Illuminate\Database\Capsule\Manager;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
@@ -57,6 +59,9 @@ $containerBuilder->addDefinitions([
     },
     'router' => function () {
         return new RouterContainer();
+    },
+    'logsPath' => function () {
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'log.log';
     }
 ]);
 
@@ -98,9 +103,9 @@ $containerBuilder->addDefinitions([
         return $capsule;
     },
 
-    'logger' => function () {
-        return new Logger('logger');
-    },
+    LoggerInterface::class => factory(function (string $logsPath) {
+        return (new Logger('logger'))->pushHandler(new StreamHandler($logsPath));
+    })->parameter('logsPath', DI\get('logsPath')),
 
     'stageIdx' => function (ServerRequestInterface $request) {
         return $request->getAttribute('stage', 0);

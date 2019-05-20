@@ -23,7 +23,8 @@ class SuggestionCategories
     public function getMotherboardPriority(): SuggestionPriority
     {
         $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'cpu-intensive', 'graphics']);
-        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive', 'graphics']);
+        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive', 'graphics']) ||
+            $this->atLeastOneCategoryRatedHigh(['light-usage', 'multimedia']);
 
         if ($shouldReturnHighestPriority) {
             return SuggestionPriority::highest();
@@ -39,7 +40,8 @@ class SuggestionCategories
     public function getStoragePriority(): SuggestionPriority
     {
         $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'cpu-intensive', 'graphics']);
-        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive', 'graphics']);
+        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive', 'graphics']) ||
+            $this->atLeastOneCategoryRatedHigh(['light-usage', 'multimedia']);
 
         if ($shouldReturnHighestPriority) {
             return SuggestionPriority::highest();
@@ -55,7 +57,7 @@ class SuggestionCategories
     public function getCPUPriority(): SuggestionPriority
     {
         $shouldReturnHighestPriority = $this->atLeastOneCategoryRatedHigh(['gaming', 'cpu-intensive']);
-        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive']) || $this->isCategoryRatedHigh('multimedia');
+        $shouldReturnMidPriority = $this->atLeastOneCategoryRatedMedium(['gaming', 'cpu-intensive']) || $this->atLeastOneCategoryRatedHigh(['multimedia', 'light-usage']);
 
         $isProfessionalPurpose = $this->isCategoryRatedHigh('cpu-intensive') || $this->isCategoryRatedMedium('cpu-intensive');
 

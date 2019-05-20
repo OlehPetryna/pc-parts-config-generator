@@ -12,8 +12,8 @@ class StorageSuggestionStrategy extends SuggestionStrategy
 {
 
     private $type = [
-        'top' => ['M.2'],
-        'mid' => ['SATA 6 Gb/s'],
+        'top' => ['M.2', 'SATA 6 Gb/s'],
+        'mid' => ['SATA 6 Gb/s', 'SATA 3 Gb/s'],
         'low' => ['SATA 6 Gb/s', 'SATA 3 Gb/s'],
     ];
 
@@ -27,6 +27,6 @@ class StorageSuggestionStrategy extends SuggestionStrategy
             }
         });
 
-        $query->where('specifications.Type.value', $this->suggestionPriority->isLowest() ? '!=' : '=', 'SSD');
+        $query->where('specifications.Type.value', $this->suggestionPriority->isHighest() ? '=' : '!=', 'SSD');
     }
 }
