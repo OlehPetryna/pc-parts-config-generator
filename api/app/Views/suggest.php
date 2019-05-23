@@ -58,7 +58,7 @@ $maxAvailablePriority = count($questions);
                         <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
                         </div>
-                        <input type="number" class="form-control">
+                        <input name="budget" type="number" class="form-control">
                     </div>
                 </div>
                 <div class="text-center w-100 mx-auto">

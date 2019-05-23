@@ -5,6 +5,7 @@ namespace App\Actions;
 
 use App\Core\Action;
 use App\Domain\PickerWizard\Wizard;
+use App\Domain\SuggestService\BudgetControl\BudgetControl;
 use App\Domain\SuggestService\SuggestionCategories;
 use App\Domain\SuggestService\SuggestService;
 use Psr\Http\Message\ResponseInterface;
@@ -29,9 +30,10 @@ class CompleteSuggestionAction extends Action
         $redirectUrl = null;
         try {
             $suggestionCategories = new SuggestionCategories($request->getAttribute('Question', []));
+            $suggestionBudget = new BudgetControl($suggestionCategories, (float)$request->getAttribute('budget'));
 
             $suggestionService = new SuggestService($this->wizard, $this->logger);
-            $suggestionService->completeSuggestion($suggestionCategories);
+            $suggestionService->completeSuggestion($suggestionCategories, $suggestionBudget);
 
             $response = $this->wizard->keepState($response);
 
