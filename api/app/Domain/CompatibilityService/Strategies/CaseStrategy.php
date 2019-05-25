@@ -25,7 +25,7 @@ class CaseStrategy extends AbstractStrategy
         if ($motherboard) {
             $formFactor = $motherboard->getAttribute('specifications')['Form Factor']['value'];
 
-            $query->where('specifications.Motherboard Form Factor.value', 'regex', "/($formFactor$)|(^$formFactor)|(, $formFactor,)/gi");
+            $query->where('specifications.Motherboard Form Factor.value', 'regex', "/(, $formFactor$)|(^$formFactor)|(, $formFactor,)/gi");
         }
 
         if ($videocard) {

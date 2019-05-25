@@ -16,6 +16,6 @@ class PowerSupplyStrategy extends AbstractStrategy
             $generalConsumption += $item->getPowerConsumption();
         }
 
-        $query->where('wattage', '>=', $generalConsumption);
+        $query->where('wattage', '>=', $generalConsumption + 100);
     }
 }
