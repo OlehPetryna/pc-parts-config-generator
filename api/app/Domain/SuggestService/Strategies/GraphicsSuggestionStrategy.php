@@ -18,7 +18,7 @@ class GraphicsSuggestionStrategy extends SuggestionStrategy
     ];
 
     private $chipsets = [
-        'professional' => ['Quadro', 'radeon pro duo polaris'],
+        'professional' => ['Quadro', 'radeon pro duo polaris', 'geforce'],
         'other' => ['GeForce', 'Radeon']
     ];
 

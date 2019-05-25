@@ -5,6 +5,7 @@ namespace App\Domain\SuggestService;
 
 use App\Domain\PcParts\PartsCollection;
 use App\Domain\PcParts\PcPart;
+use Illuminate\Support\Collection;
 use Jenssegers\Mongodb\Eloquent\Builder;
 
 abstract class SuggestionStrategy
@@ -34,29 +35,43 @@ abstract class SuggestionStrategy
     {
         $keys = $collection->keys();
 
-        $chunkSize = ceil($keys->count() / 4);
+        $chunkSize = $this->determineChunkSize($keys);
         $offset = floor($keys->count() - $chunkSize / 2);
 
-        return $collection->get($keys->slice($offset, $chunkSize)->random());
+        return $collection->get($this->pickRandomKeyFromSlice($keys, $chunkSize, $offset));
     }
     
     protected function pickRandomElementFromTop(PartsCollection $collection): PcPart
     {
         $keys = $collection->keys();
 
-        $chunkSize = ceil($keys->count() / 4);
+        $chunkSize = $this->determineChunkSize($keys);
 
-        return $collection->get($keys->slice(0, $chunkSize)->random());
+        return $collection->get($this->pickRandomKeyFromSlice($keys, $chunkSize));
     }
     
     protected function pickRandomElementFromBottom(PartsCollection $collection): PcPart
     {
         $keys = $collection->keys();
 
-        $chunkSize = ceil($keys->count() / 4);
+        $chunkSize = $this->determineChunkSize($keys);
         $offset = floor($keys->count() - $chunkSize);
 
-        return $collection->get($keys->slice($offset)->random());
+        return $collection->get($this->pickRandomKeyFromSlice($keys, null, $offset));
+    }
+
+    private function determineChunkSize(Collection $keys): float
+    {
+        return 3;
+    }
+
+    private function pickRandomKeyFromSlice(Collection $keys, $chunkSize = null, $offset = null): int
+    {
+        if ($chunkSize <= 2) {
+            return $keys->random();
+        }
+
+        return $keys->slice((int)$offset, (int)$chunkSize)->random();
     }
 
     abstract public function addSuggestionCriteria(Builder $query): void;

@@ -49,44 +49,88 @@ class BudgetControl
             return $this->ratio;
         }
 
-        $default = $this->getDefaultRatio();
+        $percentagesDistribution = $this->getPercentageDistribution();
 
-        $highPercentage = 20;
-        $lowPercentage = 10;
+        $coefs = [
+            'highest' => count($percentagesDistribution['highest']),
+            'high' => count($percentagesDistribution['high']),
+            'med' => count($percentagesDistribution['med']),
+            'low' => count($percentagesDistribution['low'])
+        ];
 
-        $default[PowerSupply::class] = $lowPercentage;
-        $default[PcCase::class] = $lowPercentage;
+        $percentagesValues = ['highest' => 25, 'high' => 18, 'med' => 12, 'low' => 5];
 
-        if ($this->suggestionCategories->getGraphicsPriority()->isHighest()) {
-            $default[VideoCard::class] = $highPercentage;
+        while (!$this->percentagesSumIsHundred($coefs, $percentagesValues)) {
+            $percentagesValues['highest']--;
+            $percentagesValues['high']--;
         }
 
-        if ($this->suggestionCategories->getCPUPriority()->isHighest()) {
-            $default[CPU::class] = $highPercentage;
-        }
-
-        if ($this->suggestionCategories->getMemoryPriority()->isHighest()) {
-            $default[RAM::class] = $highPercentage;
-        }
-
-        $this->ratio = $default;
+        $this->ratio = $this->fillRatioFromDistributionValues($percentagesDistribution, $percentagesValues);
 
         return $this->ratio;
     }
 
-    private function getDefaultRatio(): array
+    private function percentagesSumIsHundred(array $coefs, array $percentageValues): bool
     {
-        $partsAmount = 7;
-        $defaultPerPart = 100  / $partsAmount;
+        $sum = 0;
+        foreach ($coefs as $type => $value) {
+            $sum += $value * $percentageValues[$type];
+        }
 
-        return [
-            Motherboard::class => $defaultPerPart,
-            CPU::class => $defaultPerPart,
-            VideoCard::class=> $defaultPerPart,
-            RAM::class=> $defaultPerPart,
-            Storage::class => $defaultPerPart,
-            PowerSupply::class => $defaultPerPart,
-            PcCase::class => $defaultPerPart,
-        ];
+        return $sum <= 100;
+    }
+
+    private function getPercentageDistribution(): array
+    {
+        $percentagesDistribution = ['highest' => [], 'high' => [], 'med' => [], 'low' => []];
+
+        $percentagesDistribution['low'][] = PowerSupply::class;
+        $percentagesDistribution['low'][] = PcCase::class;
+
+        if ($this->suggestionCategories->getMotherboardPriority()->isHighest()) {
+            $percentagesDistribution['high'][] = Motherboard::class;
+        } else {
+            $percentagesDistribution['med'][] = Motherboard::class;
+        }
+
+        if ($this->suggestionCategories->getGraphicsPriority()->isHighest()) {
+            $percentagesDistribution['highest'][] = VideoCard::class;
+        } else {
+            $percentagesDistribution['high'][] = VideoCard::class;
+        }
+
+        if ($this->suggestionCategories->getCPUPriority()->isHighest()) {
+            $percentagesDistribution['highest'][] = CPU::class;
+        } else {
+            $percentagesDistribution['high'][] = CPU::class;
+        }
+
+        if ($this->suggestionCategories->getMemoryPriority()->isHighest()) {
+            $percentagesDistribution['high'][] = RAM::class;
+        } else {
+            $percentagesDistribution['med'][] = RAM::class;
+        }
+
+        if ($this->suggestionCategories->getStoragePriority()->isHighest()) {
+            $percentagesDistribution['high'][] = Storage::class;
+        } else {
+            $percentagesDistribution['med'][] = Storage::class;
+        }
+
+
+        return $percentagesDistribution;
+    }
+
+    private function fillRatioFromDistributionValues(array $distribution, array $values): array
+    {
+        $ratio = [];
+
+        foreach ($distribution as $type => $classes) {
+            foreach ($classes as $class) {
+                $ratio[$class] = $values[$type];
+            }
+        }
+
+        return $ratio;
     }
 }

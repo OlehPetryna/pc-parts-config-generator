@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Domain\SuggestService;
 
+use http\Exception\InvalidArgumentException;
+
 class SuggestionCategories
 {
     public static $availableCategories = [
@@ -18,6 +20,11 @@ class SuggestionCategories
     public function __construct(array $categories)
     {
         $this->ratedCategories = $categories;
+
+        $areCategoriesNotRated = strlen(implode('', $categories)) === 0;
+        if ($areCategoriesNotRated) {
+            throw new \InvalidArgumentException();
+        }
     }
 
     public function getMotherboardPriority(): SuggestionPriority
@@ -140,22 +147,22 @@ class SuggestionCategories
 
     private function isCategoryRatedHigh(string $category): bool
     {
-        return $this->getCategoryPriority($category) === 5;
+        return $this->getCategoryPriority($category) >= 4;
     }
 
     private function isCategoryRatedMedium(string $category): bool
     {
-        return $this->getCategoryPriority($category) >= 3 && $this->getCategoryPriority($category) <= 4;
+        return $this->getCategoryPriority($category) >= 2 && $this->getCategoryPriority($category) <= 3;
     }
 
     private function isCategoryRatedLow(string $category): bool
     {
-        return $this->getCategoryPriority($category) <= 2;
+        return $this->getCategoryPriority($category) <= 1;
     }
 
     private function getCategoryPriority(string $category): int
     {
-        return (int)$this->ratedCategories[$category];
+        return (int)($this->ratedCategories[$category] ?? 0);
     }
 
 

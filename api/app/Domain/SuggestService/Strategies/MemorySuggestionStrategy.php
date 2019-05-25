@@ -13,7 +13,7 @@ class MemorySuggestionStrategy extends SuggestionStrategy
 {
     private $speed = [
         'top' => ['DDR4'],
-        'mid' => ['DDR3'],
+        'mid' => ['DDR3', 'DDR4'],
         'low' => ['DDR3', 'DDR2'],
     ];
 

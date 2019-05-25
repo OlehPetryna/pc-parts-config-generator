@@ -16,7 +16,7 @@ class MotherboardSuggestionStrategy extends SuggestionStrategy
 
     private $intelSockets = [
         'top' => ['LGA2066', 'LGA1151'],
-        'mid' => ['LGA1155', 'LGA1150'],
+        'mid' => ['LGA1155', 'LGA1150', 'LGA1151'],
         'low' => ['LGA775']
     ];
 

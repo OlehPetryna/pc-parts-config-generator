@@ -35,16 +35,17 @@ $maxAvailablePriority = count($questions);
             <div id="questions-wrapper" class="w-75 mx-auto mt-4">
                 <?php foreach ($questions as $name => $text): ?>
                     <div class="question row mx-0">
-                    <span class="question-text col-12 col-sm-12 col-md-7">
+                    <span class="question-text col-12 col-sm-12 col-md-6">
                         <?= $text ?>
                     </span>
-                        <span class="priorities col-12 col-sm-12 col-md-5">
-                        <?php foreach (range(1, $maxAvailablePriority) as $priority): ?>
+                        <span class="priorities col-12 col-sm-12 col-md-6">
+                        <?php foreach (range(0, $maxAvailablePriority) as $priority): ?>
                             <input type="radio"
                                    name="<?= $name ?>"
                                    id="<?= $name . $priority ?>"
                                    class="priority-radio"
-                                   value="<?= $priority ?>">
+                                   value="<?= $priority ?>"
+                            >
                             <label for="<?= $name . $priority ?>" class="priority-btn">
                                 <?= $priority ?>
                             </label>
@@ -58,7 +59,7 @@ $maxAvailablePriority = count($questions);
                         <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
                         </div>
-                        <input name="budget" type="number" class="form-control">
+                        <input name="budget" type="number" required class="form-control">
                     </div>
                 </div>
                 <div class="text-center w-100 mx-auto">
